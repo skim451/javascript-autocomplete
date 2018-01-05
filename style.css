@@ -1,3 +1,49 @@
+header {
+    width: 100%;
+    background-color: #FFFFFF;
+}
+
+#information {
+    width: 100%;
+    min-width: 1300px;
+    border-top: 2px solid #A0A0A0;
+    border-bottom: 1px solid #A0A0A0;
+}
+
+#information span {
+    display: inline-block;
+    width: 45%;
+}
+
+#information, #header {
+    padding: 10px 30px;
+}
+
+#information ul {
+    display: inline-block;
+    width: 50%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#information ul li {
+    display: inline-block;
+    border-right: 1px solid #AAAAAA;
+    padding-right: 10px;
+    padding-left: 6px;
+}
+
+#search_bar {
+    display: inline-block;
+}
+
+#search_bar input {
+    display: inline-block;
+    width: 210px;
+    height: 40px;
+}
+
 .brand_shop {
 /*  브랜드관 배경색 변경 */
 }
