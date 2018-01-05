@@ -5,3 +5,7 @@ body {
 li {
     list-style: none;
 }
+
+.search-button {
+    background: url(https://cdn.bmf.kr/web/common/ic_search.png) no-repeat center 0;
+}
