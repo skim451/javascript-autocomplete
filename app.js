@@ -62,7 +62,8 @@ class SearchWindow {
 		this.setKeyboardListener();
 		this.setSearchButtonListener();
 		this.setSearchTextChangeListener();
-		this.setAutoCompleteListListener(); 
+		this.setAutoCompleteClickListener(); 
+		this.setAutoCompleteHoverListener();
 	}
 
 	requestApi(word, callback) {
@@ -143,7 +144,27 @@ class SearchWindow {
 		}.bind(this)); 
 	}
 
-	setAutoCompleteListListener() {
+	setAutoCompleteHoverListener() {
+		const autoCompleteList = this.domContainer.autoCompleteList; 
+
+		autoCompleteList.addEventListener('mouseover', function(e) {
+			let listItem = e.target; 
+
+			if(!listItem || listItem.nodeName !== 'LI') {
+				return; 
+			}
+
+			let currHoveredItem = this.domContainer.getHoveredItem();
+			 
+			if(currHoveredItem) {
+				currHoveredItem.classList.remove('hover');
+			}
+			
+			listItem.classList.add('hover');	
+		}.bind(this));
+	}
+
+	setAutoCompleteClickListener() {
 		const autoCompleteList = this.domContainer.autoCompleteList; 
 
 		autoCompleteList.addEventListener('click', function(e) {
