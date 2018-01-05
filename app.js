@@ -4,6 +4,7 @@ function $(ele) {
 
 class DomContainer {
 	constructor() {
+		this.appBar = $('#app-bar');
 		this.searchButton = $('.search-button');
 		this.searchBar = $('.search-bar');
 		this.searchField = $('#search-field');
@@ -43,8 +44,12 @@ class AppbarRenderer {
 }
 
 class MainpageRenderer {
-	constructor() {
+	constructor(domContainer) {
+		this.domContainer = domContainer;
+	}
 
+	init() {
+		// this.domContainer.appBar.innerHTML =
 	}
 }
 
