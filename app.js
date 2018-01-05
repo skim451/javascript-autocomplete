@@ -6,26 +6,37 @@ class DomContainer {
 	constructor() {
 		this.searchBar = $('.search-bar');
 		this.searchField = $('#search-field');
+		this.autoCompleteList = $('.auto-complete-list');
 	}
 }
 
 class AppbarRenderer {
-	constructor() {
-
+	constructor(domContainer) {
+		this.domContainer = domContainer;
 	}
 
-	updateRendering(autoComplete) {
-		// console.log(autoComplete);
+	updateRendering(keyword, autoComplete) {
+        const listDom = this.domContainer.autoCompleteList;
+        if(!autoComplete){
+        	listDom.innerHTML = ""
+        	return false
+        }
 
+        let listDomHTML = "";
+		autoComplete.forEach((item) => {
+			const itemHTML = item[0].replace(keyword, "<span>" + keyword + "</span>");
+			let itemDom = "<li>" + itemHTML + "</li>";
+            listDomHTML += itemDom;
+		});
+
+        listDom.innerHTML = listDomHTML;
 	}
 
 	highlightListItem(index) {
-
+		const listDom = this.domContainer.autoCompleteList;
+		
 	}
 
-	highlightWords(keyword) {
-
-	}
 }
 
 class MainpageRenderer {
@@ -77,7 +88,6 @@ class SearchWindow {
 			}.bind(this));
 		} else {
 			callback(this.memo[word]);
-			console.log('cache!!!!!!!!!!!!!!');
 		}
 	}
 
@@ -97,8 +107,7 @@ class SearchWindow {
 		this.domContainer.searchField.addEventListener('input', function(e) {
 			const keyword = e.target.value;
 			this.getAutoCompleteList(keyword, function(autoComplete) {
-				this.appBarRenderer.updateRendering(autoComplete);
-				console.log(this.memo);
+				this.appBarRenderer.updateRendering(keyword, autoComplete);
 			}.bind(this));
 		}.bind(this));
 	}
@@ -123,9 +132,9 @@ class AjaxRequest {
 document.addEventListener('DOMContentLoaded', function () {
 	const baseApiUrl = "http://crong.codesquad.kr:8080/ac/";
 
-	const domCotainer = new DomContainer();
-	const appbarRenderer = new AppbarRenderer();
+	const domContainer = new DomContainer();
+	const appbarRenderer = new AppbarRenderer(domContainer);
 
-	const searchWindow = new SearchWindow(baseApiUrl, domCotainer, appbarRenderer);
+	const searchWindow = new SearchWindow(baseApiUrl, domContainer, appbarRenderer);
 	searchWindow.init();
 });

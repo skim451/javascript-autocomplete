@@ -33,6 +33,7 @@ a {
 .search-bar {
 	width: 100%;
 	height: 38px;
+    position: relative;
 }
 
 #search-field {
@@ -143,3 +144,18 @@ a {
 	color: #ffffff;
 }
 
+.auto-complete-window {
+    height: auto;
+    width: 200px;
+    position: relative;
+    top: 0;
+    background: #84D4D0;
+}
+
+.auto-complete-list > li > span {
+    color: #D20052;
+}
+
+.auto-complete-list > li:hover {
+    background-color: #7B9F93;
+}
