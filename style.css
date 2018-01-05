@@ -103,7 +103,7 @@ a {
 }
 
 .header > .search-bar {
-    flex: 1;
+    flex: 3;
 }
 
 .header > .quick-link {
@@ -156,6 +156,21 @@ a {
     color: #D20052;
 }
 
-.auto-complete-list > li:hover {
+.hover {
+	background-color: #7B9F93;
+}
+
+
+
+.auto-complete-list > li:focus {
     background-color: #7B9F93;
 }
+
+
+
+
+
+
+
+
+

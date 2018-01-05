@@ -4,9 +4,14 @@ function $(ele) {
 
 class DomContainer {
 	constructor() {
+		this.searchButton = $('.search-button');
 		this.searchBar = $('.search-bar');
 		this.searchField = $('#search-field');
 		this.autoCompleteList = $('.auto-complete-list');
+	}
+
+	getHoveredItem() {
+		return $('.hover');
 	}
 }
 
@@ -25,7 +30,7 @@ class AppbarRenderer {
         let listDomHTML = "";
 		autoComplete.forEach((item) => {
 			const itemHTML = item[0].replace(keyword, "<span>" + keyword + "</span>");
-			let itemDom = "<li>" + itemHTML + "</li>";
+			let itemDom = "<li data-name='" +item[0] + "'>" + itemHTML + "</li>";
             listDomHTML += itemDom;
 		});
 
@@ -33,10 +38,8 @@ class AppbarRenderer {
 	}
 
 	highlightListItem(index) {
-		const listDom = this.domContainer.autoCompleteList;
-		
+		const listDom = this.domContainer.autoCompleteList;	
 	}
-
 }
 
 class MainpageRenderer {
@@ -59,6 +62,7 @@ class SearchWindow {
 		this.setKeyboardListener();
 		this.setSearchButtonListener();
 		this.setSearchTextChangeListener();
+		this.setAutoCompleteListListener(); 
 	}
 
 	requestApi(word, callback) {
@@ -91,16 +95,75 @@ class SearchWindow {
 		}
 	}
 
-	launchSearchEvent() {
-
+	launchSearchEvent(keyword) {
+		window.location.reload();
 	}
 
 	setKeyboardListener() {
+		const searchField = this.domContainer.searchField; 
 
+		searchField.addEventListener('keypress', function(e) {
+			let currHoveredItem = this.domContainer.getHoveredItem(); 
+
+			switch(e.keyCode){
+				case 38: //ArrowUp 
+					if(!currHoveredItem) {
+						return;
+					}
+					
+					if(currHoveredItem.previousElementSibling) {
+						currHoveredItem.previousElementSibling.classList.add('hover'); 
+						currHoveredItem.classList.remove('hover');
+					}
+					break;
+
+				case 40: //ArrowDown 
+					if(!currHoveredItem) {
+						const autoCompleteList = this.domContainer.autoCompleteList; 
+						if(autoCompleteList.childNodes) {
+							autoCompleteList.childNodes[0].classList.add('hover')
+						}
+						return;
+					}
+
+					if(currHoveredItem.nextElementSibling) {
+						currHoveredItem.nextElementSibling.classList.add('hover');
+						currHoveredItem.classList.remove('hover');
+					}
+					break; 
+
+				case 13: //Enter
+					if(!currHoveredItem) {
+						this.launchSearchEvent(); 
+						return; 
+					}
+					
+					this.putSelectedItemToField(currHoveredItem.dataset.name);
+			}
+		}.bind(this)); 
+	}
+
+	setAutoCompleteListListener() {
+		const autoCompleteList = this.domContainer.autoCompleteList; 
+
+		autoCompleteList.addEventListener('click', function(e) {
+			let listItem = e.target; 
+
+			if(!listItem || listItem.nodeName !== 'LI') {
+				return; 
+			}
+
+			this.putSelectedItemToField(listItem.dataset.name); 
+		}.bind(this));
 	}
 
 	setSearchButtonListener() {
+		const searchButton = this.domContainer.searchButton; 
 
+		searchButton.addEventListener('click', function(e) {
+
+			this.launchSearchEvent(); 
+		}.bind(this));
 	}
 
 	setSearchTextChangeListener() {
@@ -110,6 +173,13 @@ class SearchWindow {
 				this.appBarRenderer.updateRendering(keyword, autoComplete);
 			}.bind(this));
 		}.bind(this));
+	}
+
+	putSelectedItemToField(word) {
+		const searchField = this.domContainer.searchField; 
+		searchField.value = word; 
+
+		this.domContainer.autoCompleteList.innerHTML = ''; 
 	}
 }
 
