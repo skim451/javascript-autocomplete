@@ -24,11 +24,12 @@ var autoComplete = {
     menuData: [],
     resultListDOM: $('.result_list'),
 
-    show: function() {
+    show: function(word) {
         this.resultListDOM.style.display = 'block';
         let html = "<ul>"
         for(let i=0; i < this.menuData.length; i++) {
-            html += "<li>" + this.menuData[i] + "</li>"
+            let specialWord = this.menuData[i].replace(word, "<span>" + word + "</span>");
+            html += "<li>" + specialWord + "</li>"
         }
         this.resultListDOM.innerHTML = html + "</ul>"
     },
@@ -36,9 +37,6 @@ var autoComplete = {
         this.resultListDOM.style.display = 'none';
     },
     update: function() {
-
-    },
-    changeTextColor: function() {
 
     }
 }
@@ -56,7 +54,7 @@ var searchBar = {
             // autoComplete.close();
         } else {
             this.autoComplete.menuData = networking.sendAPIRequest(this.inputText.value);
-            this.autoComplete.show();
+            this.autoComplete.show(this.inputText.value);
         }
     },
     searchButtonClickEvent: function() {
