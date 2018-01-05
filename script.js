@@ -15,20 +15,21 @@ function SearchBar() {
     }
 
     this.searchButtonClickEvent = function() {
-
+        this.autoComplete.close();
     }
 
 }
 
 function AutoComplete() {
     this.resultList = []
+    this.resultListDOM = $('.result_list');
 
     this.show = function() {
-
+        this.resultListDOM.style.display = 'block';
     }
 
     this.close = function() {
-
+        this.resultListDOM.style.display = 'none';
     }
 
     this.update = function() {
@@ -39,3 +40,5 @@ function AutoComplete() {
 
     }
 }
+
+var searchBar = new SearchBar();

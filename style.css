@@ -89,6 +89,27 @@ header {
     left: -30px;
 }
 
+#search_bar .result_list {
+    position: absolute;
+    display: none;
+    width: 210px;
+    margin: 0;
+    background-color: #2ac1bc;
+    z-index: 999;
+}
+
+.result_list ul {
+    list-style: none;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+}
+
+.result_list ul li {
+    padding: 5px;
+    font-size: 20px;
+}
+
 .side_logo {
     float: right;
     margin-left: 50px;
