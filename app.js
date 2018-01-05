@@ -64,6 +64,7 @@ class SearchWindow {
 	}
 
 	init() {
+		this.setFocusOutListener();
 		this.setKeyboardListener();
 		this.setSearchButtonListener();
 		this.setSearchTextChangeListener();
@@ -103,6 +104,14 @@ class SearchWindow {
 
 	launchSearchEvent(keyword) {
 		window.location.reload();
+	}
+
+	setFocusOutListener() {
+		const searchField = this.domContainer.searchField;
+
+		searchField.addEventListener('focusout', function(e) {
+			this.domContainer.autoCompleteList.innerHTML = '';
+		}.bind(this));
 	}
 
 	setKeyboardListener() {
