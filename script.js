@@ -47,24 +47,26 @@ var autoComplete = {
 
     },
     upKeyPressed: function() {
+        let listDOM = $(".result_list ul").children
         if (this.selectedIndex == -1) {
             return;
         }
-        $(".result_list ul").children[this.selectedIndex].classList.remove('selected')
+        listDOM[this.selectedIndex].classList.remove('selected')
         this.selectedIndex--;
         if(this.selectedIndex >= 0) {
-            $(".result_list ul").children[this.selectedIndex].classList.add('selected')
+            listDOM[this.selectedIndex].classList.add('selected')
         }
     },
     downKeyPress: function() {
+        let listDOM = $(".result_list ul").children
         if (this.selectedIndex >= this.menuData.length - 1) {
             return;
         }
         if(this.selectedIndex > -1) {
-            $(".result_list ul").children[this.selectedIndex].classList.remove('selected')
+            listDOM[this.selectedIndex].classList.remove('selected')
         }
         this.selectedIndex++;
-        $(".result_list ul").children[this.selectedIndex].classList.add('selected')
+        listDOM[this.selectedIndex].classList.add('selected')
     }
 }
 
