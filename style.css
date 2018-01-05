@@ -108,6 +108,10 @@ header {
     font-size: 20px;
 }
 
+.result_list ul .selected {
+    background-color: #FFFFFF;
+}
+
 .result_list ul li span {
     color: red;
     font-weight: bold;

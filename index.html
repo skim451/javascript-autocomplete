@@ -24,8 +24,8 @@
         <div id="header">
             <img id="main_logo" src="./image/bmc-logo.png" alt="logo_image">
             <form id="search_bar" action="index.html" method="post">
-                <input type="text" name="" value="" id="input_box" onkeyup="searchBar.checkKeyType(event)">
-                <button type="button" name="button" onclick="searchBar.searchButtonClickEvent()"></button>
+                <input type="text" name="" value="" id="input_box" onkeyup="eventHandler.pressKeyEvent(event)">
+                <button type="button" name="button" onclick="eventHandler.searchButtonEvent()"></button>
                 <div class="result_list"></div>
             </form>
             <img class="side_logo" src="./image/shopping-logo.jpg" alt="shopping_logo_image">

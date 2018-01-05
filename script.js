@@ -23,6 +23,7 @@ var networking = {
 var autoComplete = {
     menuData: [],
     resultListDOM: $('.result_list'),
+    selectedIndex: -1,
 
     show: function(word) {
         this.resultListDOM.style.display = 'block';
@@ -38,17 +39,42 @@ var autoComplete = {
     },
     update: function() {
 
+    },
+    upKeyPressed: function() {
+        $(".result_list ul").children[this.selectedIndex].classList.add('selected');
+        if (this.selectedIndex <= this.menuData.length - 1) {
+            return;
+        }
+        this.selectedIndex--;
+        // if (this.selectedIndex >= this.menuData.length - 1) {
+        //     return;
+        // }
+        // this.selectedIndex++;
+        // $(".result_list ul").children[selectedIndex].classList.add('selected');
+    },
+    downKeyPress: function() {
+        if (this.selectedIndex >= this.menuData.length - 1) {
+            return;
+        }
+        this.selectedIndex++;
+        // $(".result_list ul").children[selectedIndex].classList.add('selected');
+        // if (this.selectedIndex <= this.menuData.length - 1) {
+        //     return;
+        // }
+        // this.selectedIndex--;
     }
 }
 
-var searchBar = {
+var eventHandler = {
     inputText: $('#input_box'),
     autoComplete: autoComplete,
 
-    checkKeyType: function(event) {
+    pressKeyEvent: function(event) {
         var key = event.keyCode;
 
-        if(key === 38 || key === 40) {
+        if (key === 38) {
+            this.autoComplete.upKeyPressed()
+        } else if(key === 40) {
 
         } else if(key === 13) {
             // autoComplete.close();
@@ -57,7 +83,7 @@ var searchBar = {
             this.autoComplete.show(this.inputText.value);
         }
     },
-    searchButtonClickEvent: function() {
+    searchButtonEvent: function() {
         this.autoComplete.close();
     }
 }
