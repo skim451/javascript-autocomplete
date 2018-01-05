@@ -6,6 +6,104 @@ li {
     list-style: none;
 }
 
+ul {
+    padding: 0 0 0 0;
+}
+
+.header-wrapper {
+    width: 980px;
+    margin: auto;
+}
+
 .search-button {
     background: url(https://cdn.bmf.kr/web/common/ic_search.png) no-repeat center 0;
 }
+
+.top-navigation {
+    height: 40px;
+    display: flex;
+    border-bottom: 1px solid;
+}
+
+.app-download {
+    flex: 1;
+    text-align: left;
+    display: flex;
+}
+
+.app-download > span {
+    line-height: 40px;
+    height: 100%;
+}
+
+.system-navigation {
+    display: inline-block;
+    float: right;
+    flex: 1;
+    text-align: right;
+}
+
+.system-navigation > ul {
+    float: right;
+    position: relative;
+}
+
+.system-navigation > ul > li {
+    position: relative;
+    float: left;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-right: solid 1px;
+}
+
+.system-navigation > ul :last-child {
+    border-right: none;
+}
+
+.header {
+    margin: auto auto auto auto;
+    height: 100px;
+    width: 100%;
+    display: flex;
+}
+
+.header > .logo {
+    flex: 1;
+}
+
+.header > .search-bar {
+    flex: 1;
+}
+
+.header > .quick-link {
+    flex: 2;
+    display: flex;
+}
+
+.quick-link > ul {
+    display: flex;
+    width: 100%;
+}
+
+.quick-link > ul > li {
+    flex: 1;
+}
+
+.menu-bar {
+    height: 55px;
+    display: flex;
+    background-color: #483f35;
+    color: #ffffff;
+    font-size: 18px;
+    text-align: center;
+}
+
+.menu-bar > ul{
+    margin: auto auto auto auto;
+    display: flex;
+}
+
+.menu-bar > ul > li {
+    flex: 1;
+}
+
