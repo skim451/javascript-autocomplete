@@ -43,7 +43,9 @@ var autoComplete = {
     close: function() {
         this.resultListDOM.style.display = 'none';
     },
-    update: function() {
+    enterPressed: function() {
+
+        return this.menuData[this.selectedIndex];
 
     },
     upKeyPressed: function() {
@@ -81,7 +83,8 @@ var eventHandler = {
         } else if(key === 40) {
             this.autoComplete.downKeyPress()
         } else if(key === 13) {
-            // autoComplete.close();
+            this.inputText.value = this.autoComplete.enterPressed();
+            this.autoComplete.close();
         }
     },
     onKeyUp: function(event) {
