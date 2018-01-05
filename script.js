@@ -42,9 +42,9 @@ var autoComplete = {
     },
     close: function() {
         this.resultListDOM.style.display = 'none';
+        this.selectedIndex = -1;
     },
     enterPressed: function() {
-
         return this.menuData[this.selectedIndex];
 
     },
@@ -92,7 +92,9 @@ var eventHandler = {
         if(key === 38 || key === 40 || key === 13) {
             return;
         }
-        this.autoComplete.menuData = networking.sendAPIRequest(this.inputText.value);
+        if(networking.sendAPIRequest(this.inputText.value)) {
+            this.autoComplete.menuData = networking.sendAPIRequest(this.inputText.value);
+        }
         this.autoComplete.show(this.inputText.value);
     },
     searchButtonEvent: function() {
