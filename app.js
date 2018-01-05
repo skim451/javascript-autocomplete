@@ -103,7 +103,7 @@ class SearchWindow {
 	setKeyboardListener() {
 		const searchField = this.domContainer.searchField; 
 
-		searchField.addEventListener('keypress', function(e) {
+		searchField.addEventListener('keydown', function(e) {
 			let currHoveredItem = this.domContainer.getHoveredItem(); 
 
 			switch(e.keyCode){
@@ -155,7 +155,7 @@ class SearchWindow {
 			}
 
 			let currHoveredItem = this.domContainer.getHoveredItem();
-			 
+
 			if(currHoveredItem) {
 				currHoveredItem.classList.remove('hover');
 			}

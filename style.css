@@ -160,12 +160,9 @@ a {
 	background-color: #7B9F93;
 }
 
-
-
-.auto-complete-list > li:focus {
-    background-color: #7B9F93;
+.auto-complete-list > li {
+	cursor: pointer;
 }
-
 
 
 
