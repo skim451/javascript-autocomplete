@@ -86,7 +86,9 @@ header {
     margin-top: 25px;
     margin-bottom: 25px;
 }
-
+main {
+    min-width: 1300px;
+}
 main nav {
     background-color: #483f35;
     margin-bottom: 70px;
@@ -106,8 +108,16 @@ main nav ul li {
     font-weight: bold;
 }
 
+#brand_shop {
+    background-color: #362d25;
+}
+
 #menu_container {
     text-align: center;
+}
+
+#side_dish_logo {
+    margin-bottom: 37px;
 }
 
 .arrow {
@@ -129,22 +139,47 @@ main nav ul li {
     right: -500px;
 }
 
-#brand_shop {
-    background-color: #362d25;
+.menu {
+    display: inline-block;
+    width: 215px;
+    height: 350px;
+    margin: 0 15px;
 }
 
-.food_image {
-    /* 이미지 동그랗게 */
+.menu .food_image {
+    width: 215px;
+    border-radius: 107px;
 }
-.menu_container .menu {
-    /* 가로정렬 */
+
+.menu h3 {
+    letter-spacing: -0.07em;
+    margin-bottom: 5px;
+}
+.menu p {
+    font-size: 13px;
+    color: #666;
+    letter-spacing: -0.07em;
+    margin: 0 0 11px 0;
 }
 
 .n_price {
-    /* 히든 */
-    /* 취소선 등 스타일 */
+    font-size: 14px;
+    color: #888;
+    font-weight: normal;
+    vertical-align: middle;
+    text-decoration-line: line-through;
 }
 
 .s_price {
-    /* 색깔 스타일 */
+    margin-left: 9px;
+    font-size: 26px;
+    color: #2AC1BC;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.won {
+    font-size: 14px;
+    padding-left: 2px;
+    font-weight: 600;
 }
