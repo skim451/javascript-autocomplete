@@ -164,10 +164,44 @@ a {
 	cursor: pointer;
 }
 
+.main-contents {
+	display: block;
+}
 
+.side-dish {
+	position: relative;
+	height: 420px;
+}
 
+.side-dish > img {
+	width: 324px;
+	height: 64px;
+	margin: auto;
+}
 
+.side-dish-title {
+	position: relative;
+	width: 980px;
+}
 
+.slider {
+	position: relative;
+	width: 100%;
+}
 
+.thumb-imgs {
+	display: flex;
+}
 
+.thumb-imgs > li {
+	width: 215px;
+	height: 215px;
+	border-radius: 50%;
+	overflow: hidden;
+	flex: 1;
+}
 
+.thumb-imgs > li > img {
+	width: 215px;
+	height: 215px;
+}

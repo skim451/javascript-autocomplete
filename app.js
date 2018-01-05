@@ -4,7 +4,7 @@ function $(ele) {
 
 class DomContainer {
 	constructor() {
-		this.appBar = $('#app-bar');
+		this.appBar = $('.app-bar');
 		this.searchButton = $('.search-button');
 		this.searchBar = $('.search-bar');
 		this.searchField = $('#search-field');
@@ -16,7 +16,7 @@ class DomContainer {
 	}
 }
 
-class AppbarRenderer {
+class AppBarRenderer {
 	constructor(domContainer) {
 		this.domContainer = domContainer;
 	}
@@ -229,8 +229,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	const baseApiUrl = "http://crong.codesquad.kr:8080/ac/";
 
 	const domContainer = new DomContainer();
-	const appbarRenderer = new AppbarRenderer(domContainer);
+	const appBarRenderer = new AppBarRenderer(domContainer);
 
-	const searchWindow = new SearchWindow(baseApiUrl, domContainer, appbarRenderer);
+	const searchWindow = new SearchWindow(baseApiUrl, domContainer, appBarRenderer);
 	searchWindow.init();
 });
