@@ -13,9 +13,12 @@ var networking = {
     convertData: function(data) {
         let result = []
         let json = JSON.parse(data)
-        for(let i=0; i < json[1].length; i++) {
-            result.push(json[1][i][0])
+        if(!json[1]) {
+            return
         }
+        json[1].forEach(function(val) {
+            result.push(val[0])
+        })
         return result
     }
 }
@@ -26,6 +29,9 @@ var autoComplete = {
     selectedIndex: -1,
 
     show: function(word) {
+        if(!this.menuData) {
+            return;
+        }
         this.resultListDOM.style.display = 'block';
         let html = "<ul>"
         for(let i=0; i < this.menuData.length; i++) {
@@ -41,27 +47,24 @@ var autoComplete = {
 
     },
     upKeyPressed: function() {
-        $(".result_list ul").children[this.selectedIndex].classList.add('selected');
-        if (this.selectedIndex <= this.menuData.length - 1) {
+        if (this.selectedIndex == -1) {
             return;
         }
+        $(".result_list ul").children[this.selectedIndex].classList.remove('selected')
         this.selectedIndex--;
-        // if (this.selectedIndex >= this.menuData.length - 1) {
-        //     return;
-        // }
-        // this.selectedIndex++;
-        // $(".result_list ul").children[selectedIndex].classList.add('selected');
+        if(this.selectedIndex >= 0) {
+            $(".result_list ul").children[this.selectedIndex].classList.add('selected')
+        }
     },
     downKeyPress: function() {
         if (this.selectedIndex >= this.menuData.length - 1) {
             return;
         }
+        if(this.selectedIndex > -1) {
+            $(".result_list ul").children[this.selectedIndex].classList.remove('selected')
+        }
         this.selectedIndex++;
-        // $(".result_list ul").children[selectedIndex].classList.add('selected');
-        // if (this.selectedIndex <= this.menuData.length - 1) {
-        //     return;
-        // }
-        // this.selectedIndex--;
+        $(".result_list ul").children[this.selectedIndex].classList.add('selected')
     }
 }
 
@@ -69,19 +72,23 @@ var eventHandler = {
     inputText: $('#input_box'),
     autoComplete: autoComplete,
 
-    pressKeyEvent: function(event) {
-        var key = event.keyCode;
-
+    onKeyDown: function(event) {
+        let key = event.keyCode
         if (key === 38) {
             this.autoComplete.upKeyPressed()
         } else if(key === 40) {
-
+            this.autoComplete.downKeyPress()
         } else if(key === 13) {
             // autoComplete.close();
-        } else {
-            this.autoComplete.menuData = networking.sendAPIRequest(this.inputText.value);
-            this.autoComplete.show(this.inputText.value);
         }
+    },
+    onKeyUp: function(event) {
+        let key = event.keyCode
+        if(key === 38 || key === 40 || key === 13) {
+            return;
+        }
+        this.autoComplete.menuData = networking.sendAPIRequest(this.inputText.value);
+        this.autoComplete.show(this.inputText.value);
     },
     searchButtonEvent: function() {
         this.autoComplete.close();
