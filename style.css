@@ -4,7 +4,6 @@ header {
 }
 
 #information {
-    /* text-align: center; */
     box-sizing: border-box;
     width: 100%;
     min-width: 1300px;
@@ -17,7 +16,6 @@ header {
     margin-left: 235px;
     margin-right: 165px;
     display: inline-block;
-    /* width: %; */
 }
 
 #information, #header {

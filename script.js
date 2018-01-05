@@ -2,43 +2,64 @@ function $(query) {
     return document.querySelector(query);
 }
 
-function SearchBar() {
-    this.inputText = $('#input_box').value;
-    this.autoComplete = new AutoComplete();
+var networking = {
+    sendAPIRequest: function(query) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://crong.codesquad.kr:8080/ac/" + query, false);
+        xhr.send();
+        let data = this.convertData(xhr.response);
+        return data
+    },
+    convertData: function(data) {
+        let result = []
+        let json = JSON.parse(data)
+        for(let i=0; i < json[1].length; i++) {
+            result.push(json[1][i][0])
+        }
+        return result
+    }
+}
 
-    this.sendAPIRequest = function(query) {
+var autoComplete = {
+    menuData: [],
+    resultListDOM: $('.result_list'),
+
+    show: function() {
+        this.resultListDOM.style.display = 'block';
+        let html = "<ul>"
+        for(let i=0; i < this.menuData.length; i++) {
+            html += "<li>" + this.menuData[i] + "</li>"
+        }
+        this.resultListDOM.innerHTML = html + "</ul>"
+    },
+    close: function() {
+        this.resultListDOM.style.display = 'none';
+    },
+    update: function() {
+
+    },
+    changeTextColor: function() {
 
     }
+}
 
-    this.checkKeyType = function() {
+var searchBar = {
+    inputText: $('#input_box'),
+    autoComplete: autoComplete,
 
-    }
+    checkKeyType: function(event) {
+        var key = event.keyCode;
 
-    this.searchButtonClickEvent = function() {
+        if(key === 38 || key === 40) {
+
+        } else if(key === 13) {
+            // autoComplete.close();
+        } else {
+            this.autoComplete.menuData = networking.sendAPIRequest(this.inputText.value);
+            this.autoComplete.show();
+        }
+    },
+    searchButtonClickEvent: function() {
         this.autoComplete.close();
     }
-
 }
-
-function AutoComplete() {
-    this.resultList = []
-    this.resultListDOM = $('.result_list');
-
-    this.show = function() {
-        this.resultListDOM.style.display = 'block';
-    }
-
-    this.close = function() {
-        this.resultListDOM.style.display = 'none';
-    }
-
-    this.update = function() {
-
-    }
-
-    this.changeTextColor = function() {
-
-    }
-}
-
-var searchBar = new SearchBar();
