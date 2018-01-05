@@ -4,9 +4,10 @@ header {
 }
 
 #information {
+    box-sizing: border-box;
     width: 100%;
     min-width: 1300px;
-    border-top: 2px solid #A0A0A0;
+    border-top: 1px solid #A0A0A0;
     border-bottom: 1px solid #A0A0A0;
 }
 
@@ -19,12 +20,25 @@ header {
     padding: 10px 30px;
 }
 
+#header {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+#header::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
 #information ul {
     display: inline-block;
+    min-width: 630px;
     width: 50%;
     list-style: none;
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 
 #information ul li {
@@ -34,14 +48,43 @@ header {
     padding-left: 6px;
 }
 
-#search_bar {
-    display: inline-block;
+#main_logo {
+    float: left;
+    margin-top: 15px;
+    margin-right: 50px;
 }
 
-#search_bar input {
+#search_bar {
     display: inline-block;
+    float: left;
+    margin-top: 29px;
+}
+
+
+#search_bar input {
+    box-sizing: border-box;
     width: 210px;
     height: 40px;
+}
+
+#search_bar button {
+    background-image: url("./image/ic_search.png");
+    position: relative;
+    width: 20px;
+    height: 20px;
+    padding: 0px;
+    background-position: 0px -10px;
+    border: 0px;
+    overflow: hidden;
+    top: 6px;
+    left: -30px;
+}
+
+.side_logo {
+    float: right;
+    margin-left: 50px;
+    margin-top: 25px;
+    margin-bottom: 25px;
 }
 
 .brand_shop {
