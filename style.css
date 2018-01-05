@@ -4,6 +4,7 @@ header {
 }
 
 #information {
+    /* text-align: center; */
     box-sizing: border-box;
     width: 100%;
     min-width: 1300px;
@@ -12,15 +13,21 @@ header {
 }
 
 #information span {
+    text-align: left;
+    margin-left: 235px;
+    margin-right: 165px;
     display: inline-block;
-    width: 45%;
+    /* width: %; */
 }
 
 #information, #header {
-    padding: 10px 30px;
+    padding: 10px;
+    text-align: center;
 }
 
 #header {
+    width: 1000px;
+    margin: 0 auto;
     padding-top: 0px;
     padding-bottom: 0px;
     min-width: 750px;
@@ -38,6 +45,7 @@ header {
     width: 50%;
     list-style: none;
     margin: 0;
+    margin-right: 100px;
     padding: 0;
     text-align: center;
 }
