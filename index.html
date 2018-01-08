@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <title>Auto Complete</title>
+</head>
+<body>
+    <header>
+        <div id="information">
+            <span>배민찬 앱 다운로드</span>
+            <ul>
+                <li>로그인</li>
+                <li>회원가입</li>
+                <li>마이페이지</li>
+                <li>고객센터</li>
+                <li>새벽배송 지역검색</li>
+                <li>이벤트 게시판</li>
+                <li><b>장바구니</b></li>
+            </ul>
+        </div>
+        <div id="header">
+            <img id="main_logo" src="./image/bmc-logo.png" alt="logo_image">
+            <form id="search_bar" action="#">
+                <input type="text" name="" value="" id="input_box" autocomplete="off">
+                <button type="button" name="button" id="search_button"></button>
+                <div class="result_list"></div>
+            </form>
+            <img class="side_logo" src="./image/shopping-logo.jpg" alt="shopping_logo_image">
+            <img class="side_logo" src="./image/best-logo.png" alt="best_logo_image">
+        </div>
+    </header>
+    <main>
+        <nav>
+            <ul>
+                <li>밑반찬</li>
+                <li>국·찌개</li>
+                <li>메인반찬</li>
+                <li>아이반찬</li>
+                <li>정기식단</li>
+                <li>신선·가공</li>
+                <li>간식</li>
+                <li id="brand_shop">브랜드관</li>
+            </ul>
+        </nav>
+        <div id="menu_container">
+            <img id="side_dish_logo" src="./image/side-dish-logo.png" alt="side_dish_logo">
+            <div>
+                <button type="button" class="arrow" id="left_arrow" name="button"></button>
+                <div class="menu" id="menu1">
+                    <img class="food_image" src="./image/food1.jpg" alt="">
+                    <h3>[집반찬연구소] 굴생채무침 200g</h3>
+                    <p>바다의 향기를 제대로 느낄 수 있어요.</p>
+                    <div><span class="n_price">5,800원</span><span class="s_price">5,390<span class="won">원</span></span></div>
+                </div>
+                <div class="menu" id="menu2">
+                    <img class="food_image" src="./image/food2.jpg" alt="">
+                    <h3>[집밥의완성] 시금치호두양념무침 200g</h3>
+                    <p>호두로 영양은 물론 고소함까지</p>
+                    <div><span class="s_price">3,900<span class="won">원</span></span></div>
+                </div>
+                <div class="menu" id="menu3">
+                    <img class="food_image" src="./image/food3.jpg" alt="">
+                    <h3>[너의반찬] 잔멸치 견과류 볶음 100g</h3>
+                    <p>메이플 시럽의 달달한 향 덕에 아이들도 참 좋아해요.</p>
+                    <div><span class="s_price">4,500<span class="won">원</span></span></div>
+                </div>
+                <div class="menu" id="menu4">
+                    <img class="food_image" src="./image/food4.jpg" alt="">
+                    <h3>[마더앤찬] 상큼한 파래초무침 140g</h3>
+                    <p>바다 향이 물씬 퍼지는 듯해요!</p>
+                    <div><span class="s_price">5,500<span class="won">원</span></span></div>
+                </div>
+                <button type="button" class="arrow" id="right_arrow" name="button"></button>
+            </div>
+        </div>
+    </main>
+<script src="script.js"></script>
+</body>
+</html>
