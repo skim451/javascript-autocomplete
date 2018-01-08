@@ -1,0 +1,226 @@
+body {
+    margin: 0 0 0 0;
+}
+
+li {
+    list-style: none;
+}
+
+ul {
+    padding: 0 0 0 0;
+}
+
+a {
+	text-decoration: none;
+	color: #666;
+}
+
+.header-wrapper {
+	display: flex;
+    width: 980px;
+    margin: auto;
+}
+
+.hover_link {
+
+}
+
+.hover-link:hover {
+	color: #25d4ce;
+    cursor: pointer;
+}
+
+.search-bar {
+	width: 100%;
+	height: 38px;
+    position: relative;
+}
+
+#search-field {
+	height: 36px;
+	border: 1px solid #cfd0d2;
+	padding: 0px;
+	margin: 0 0 0 0;
+	float: left;
+	width: 210px;
+}
+
+.search-button {
+	margin: auto 0 auto -38px;
+	width: 38px;
+	height: 38px;
+	border: none;
+    background: url(https://cdn.bmf.kr/web/common/ic_search.png) no-repeat center 0;
+}
+
+.top-navigation {
+    height: 40px;
+    display: flex;
+    border-bottom: 1px solid #E9E9E9;
+	font-size: 12px;
+	color: #d6d6d6;
+}
+
+.app-download {
+    flex: 2;
+    text-align: left;
+    display: flex;
+}
+
+.app-download > span {
+    line-height: 40px;
+    height: 100%;
+}
+
+.system-navigation {
+    display: inline-block;
+    float: right;
+    flex: 5;
+    text-align: right;
+}
+
+.system-navigation > ul {
+    float: right;
+    position: relative;
+}
+
+.system-navigation > ul > li {
+    position: relative;
+    float: left;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-right: solid 1px;
+}
+
+.system-navigation > ul :last-child {
+    border-right: none;
+}
+
+.header {
+    margin: auto auto auto auto;
+    height: 100px;
+    display: flex;
+}
+
+.header > .logo {
+    flex: 1;
+	margin: auto 30px auto 0;
+}
+
+.header > .search-bar {
+    flex: 3;
+	margin: auto 0 auto 0;
+}
+
+.header > .quick-link {
+    flex: 2;
+    display: flex;
+}
+
+.quick-link > ul {
+    display: flex;
+    width: 100%;
+}
+
+.quick-link > ul > li {
+    flex: 1;
+	text-align: right;
+	margin: auto 0;
+}
+
+.menu-bar {
+    height: 55px;
+    width: 100vw;
+    display: flex;
+    background-color: #483f35;
+    color: #ffffff;
+    font-size: 18px;
+    text-align: center;
+}
+
+.menu-bar > ul{
+    display: flex;
+	height: 100%;
+}
+
+.brand {
+	background-color: #29221c;
+}
+
+.menu-bar > ul > li {
+	width: 100%;
+	height: 100%;
+    flex: 1;
+	line-height: 55px;
+}
+.menu-bar > ul > li > a {
+	margin: auto;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+.auto-complete-window {
+    height: auto;
+    width: 212px;
+    position: relative;
+    top: -18px;
+    background: #84D4D0;
+    z-index: 1
+}
+
+.auto-complete-list > li > span {
+    color: #D20052;
+}
+
+.hover {
+	background-color: #7B9F93;
+}
+
+.auto-complete-list > li {
+	cursor: pointer;
+}
+
+.main-contents {
+	display: block;
+}
+
+.side-dish {
+	height: 420px;
+	display: block;
+}
+
+.side-dish-title > img {
+	width: 324px;
+	height: 64px;
+	margin: auto;
+}
+
+.side-dish-title {
+	position: relative;
+	width: 980px;
+	margin: auto;
+	text-align: center;
+	margin: 50px 0;
+}
+
+.slider {
+	position: relative;
+	width: 100%;
+}
+
+.thumb-imgs {
+	display: flex;
+}
+
+.thumb-imgs > li {
+	width: 215px;
+	height: 215px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin: auto;
+}
+
+.thumb-imgs > li > img {
+	width: 215px;
+	height: 215px;
+}
