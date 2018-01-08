@@ -83,8 +83,9 @@ AutoComplete.prototype = {
     }
 }
 
-function EventHandler(networking) {
-    this.networking = networking; 
+function EventHandler(networking, autoComplete) {
+    this.networking = networking;
+    this.autoComplete = autoComplete
 }
 
 EventHandler.prototype = {
@@ -99,12 +100,12 @@ EventHandler.prototype = {
     onKeyDown: function(event) {
         let key = event.keyCode;
         if (key === 38) {
-            autoComplete.upKeyPressed();
+            this.autoComplete.upKeyPressed();
         } else if(key === 40) {
-            autoComplete.downKeyPress();
+            this.autoComplete.downKeyPress();
         } else if(key === 13) {
-            this.inputText.value = autoComplete.enterPressed();
-            autoComplete.close();
+            this.inputText.value = this.autoComplete.enterPressed();
+            this.autoComplete.close();
         }
     },
     onKeyUp: function(event) {
@@ -114,19 +115,22 @@ EventHandler.prototype = {
                 return;
             }
             if(data) {
-                autoComplete.menuData = data;
+                this.autoComplete.menuData = data;
             }
-            autoComplete.show(this.inputText.value);
+            this.autoComplete.show(this.inputText.value);
         }.bind(this));
         
     },
     searchButtonEvent: function() {
-        autoComplete.close();
+        this.autoComplete.close();
     }
 }
 
-var autoComplete = new AutoComplete(); 
-autoComplete.init()
+document.addEventListener('DOMContentLoaded', function () {
+    var autoComplete = new AutoComplete();
+    autoComplete.init()
 
-var eventHandler = new EventHandler(new Networking()); 
-eventHandler.init()
+    var eventHandler = new EventHandler(new Networking(), autoComplete);
+    eventHandler.init()
+});
+
