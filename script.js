@@ -7,12 +7,14 @@ function Networking() {
 }
 
 Networking.prototype = {
-    sendAPIRequest: function(query) {
+    sendAPIRequest: function(query, callback) {
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://crong.codesquad.kr:8080/ac/" + query, false);
+        xhr.addEventListener("load", function(e) {
+            var data = this.convertData(xhr.responseText); 
+            callback(data);
+        }.bind(this));
+        xhr.open("GET", "http://crong.codesquad.kr:8080/ac/" + query);
         xhr.send();
-        let data = this.convertData(xhr.response);
-        return data
     },
     convertData: function(data) {
         let result = []
@@ -107,14 +109,16 @@ EventHandler.prototype = {
     },
     onKeyUp: function(event) {
         let key = event.keyCode;
-        let data = networking.sendAPIRequest(this.inputText.value);
-        if(key === 38 || key === 40 || key === 13) {
-            return;
-        }
-        if(data) {
-            autoComplete.menuData = data;
-        }
-        autoComplete.show(this.inputText.value);
+        this.networking.sendAPIRequest(this.inputText.value, function(data) {
+            if(key === 38 || key === 40 || key === 13) {
+                return;
+            }
+            if(data) {
+                autoComplete.menuData = data;
+            }
+            autoComplete.show(this.inputText.value);
+        }.bind(this));
+        
     },
     searchButtonEvent: function() {
         autoComplete.close();
