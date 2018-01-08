@@ -10,7 +10,7 @@ Networking.prototype = {
     sendAPIRequest: function(query, callback) {
         var xhr = new XMLHttpRequest();
         xhr.addEventListener("load", function(e) {
-            var data = this.convertData(xhr.responseText); 
+            var data = this.convertData(xhr.responseText);
             callback(data);
         }.bind(this));
         xhr.open("GET", "http://crong.codesquad.kr:8080/ac/" + query);
@@ -40,6 +40,7 @@ AutoComplete.prototype = {
         if(!this.menuData) {
             return;
         }
+        this.selectedIndex = -1;
         this.resultListDOM.style.display = 'block';
         let html = "<ul>"
         this.menuData.forEach(function(data) {
@@ -53,11 +54,12 @@ AutoComplete.prototype = {
         this.selectedIndex = -1;
     },
     enterPressed: function() {
-        return this.menuData[this.selectedIndex];
-
+        var currData = this.menuData[this.selectedIndex];
+        this.close();
+        return currData;
     },
     upKeyPressed: function() {
-        let listDOM = $(".result_list ul").children
+        let listDOM = this.resultListDOM.childNodes[0].children;
         if (this.selectedIndex == -1) {
             return;
         }
@@ -67,8 +69,8 @@ AutoComplete.prototype = {
             listDOM[this.selectedIndex].classList.add('selected')
         }
     },
-    downKeyPress: function() {
-        let listDOM = $(".result_list ul").children
+    downKeyPressed: function() {
+        let listDOM = this.resultListDOM.childNodes[0].children;
         if (this.selectedIndex >= this.menuData.length - 1) {
             return;
         }
@@ -98,10 +100,9 @@ EventHandler.prototype = {
         if (key === 38) {
             this.autoComplete.upKeyPressed();
         } else if(key === 40) {
-            this.autoComplete.downKeyPress();
+            this.autoComplete.downKeyPressed();
         } else if(key === 13) {
             this.inputText.value = this.autoComplete.enterPressed();
-            this.autoComplete.close();
         }
     },
     onKeyUp: function(event) {
@@ -115,7 +116,7 @@ EventHandler.prototype = {
             }
             this.autoComplete.show(this.inputText.value);
         }.bind(this));
-        
+
     },
     searchButtonEvent: function() {
         this.autoComplete.close();

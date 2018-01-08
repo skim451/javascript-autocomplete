@@ -14,10 +14,10 @@ describe('Networking Test', function(){
 		var networking = new Networking();
 
 		networking.sendAPIRequest("오징", function(data) {
-			assert.deepEqual(data, ohJingExpected); 
+			assert.deepEqual(data, ohJingExpected);
 			done();
 		});
-	}); 
+	});
 
 	it('된장, should equal', function(done) {
 		const dwenJangExpected = ["된장소스 방풍나물"
@@ -30,8 +30,8 @@ describe('Networking Test', function(){
 		var networking = new Networking();
 
 		networking.sendAPIRequest("된장", function(data) {
-			assert.deepEqual(data, dwenJangExpected); 
-			done(); 
+			assert.deepEqual(data, dwenJangExpected);
+			done();
 		});
 	});
 
@@ -50,25 +50,63 @@ describe('Networking Test', function(){
 
 		var func = function(data) {
 			assert.notDeepEqual(data, ohJingExpected);
-			done(); 
+			done();
 		};
 
 		networking.sendAPIRequest("오징", func);
 	});
 
-}); 
+});
 
 describe('EventHandler', function(){
-    it('onKeyDown Event is OK', function(){
-        var inputBox = document.createElement("input");
-        inputBox.id = "input_box";
-        var keyDownEvent = new Event("keyDown");
-        keyDownEvent.keyCode = 38;
-        inputBox.dispatchEvent(keyDownEvent);
-    });
-    it('', function(){
+    var mockAuto = {
+		result: "",
+		upKeyPressed: function() {
+			this.result = "upkey";
+		},
+		downKeyPressed: function() {
+			this.result = "downkey";
+		},
+		enterPressed: function() {
+			this.result = "enter";
+			return "enter";
+		}
+	};
 
-    })
+	var mockInput = {
+		value: ""
+	}
+
+	var eventHandler = new EventHandler(new Networking(), mockAuto, mockInput, "");
+
+	it('onKeyDown upkey Event Test', function() {
+		var event = new Event("keydown");
+		event.keyCode = 38;
+
+		eventHandler.onKeyDown(event);
+
+		assert.equal(mockAuto.result, "upkey");
+	});
+
+	it('onKeyDown downkey Event Test', function() {
+		var event = new Event("keydown");
+		event.keyCode = 40;
+
+		eventHandler.onKeyDown(event);
+
+		assert.equal(mockAuto.result, "downkey");
+	});
+
+	it('onKeyDown enter Event Test', function() {
+		var event = new Event("keydown");
+		event.keyCode = 13;
+
+		eventHandler.onKeyDown(event);
+
+		assert.equal(mockAuto.result, "enter");
+		assert.equal(mockInput.value, "enter");
+	});
+
 });
 
 describe('auto', function(){
@@ -95,22 +133,40 @@ describe('auto', function(){
     });
 
     it('close test', function() {
-    	auto.close(); 
+    	auto.close();
 
-    	assert.equal(auto.selectedIndex, -1); 
-    	console.log(auto.resultListDOM)
+    	assert.equal(auto.selectedIndex, -1);
     	assert.equal(auto.resultListDOM.style.display, 'none');
     });
+
+	it('enter pressed test', function() {
+		auto.selectedIndex = 3;
+		var retval = auto.enterPressed();
+
+		assert.equal(auto.menuData[3], retval);
+	});
+
+	it('upkey pressed test', function() {
+		auto.show();
+		auto.selectedIndex = 3;
+		var childList = resultListDom.childNodes[0].children;
+		childList[3].classList.add('selected');
+		auto.upKeyPressed();
+
+		assert.equal(auto.selectedIndex, 2);
+		assert.notInclude(childList[3].className, "selected");
+		assert.include(childList[2].className, "selected");
+	});
+
+	it('downkey pressed test', function() {
+		auto.show();
+		auto.selectedIndex = 4;
+		var childList = resultListDom.childNodes[0].children;
+		childList[4].classList.add('selected');
+		auto.downKeyPressed();
+
+		assert.equal(auto.selectedIndex, 5);
+		assert.notInclude(childList[4].className, "selected");
+		assert.include(childList[5].className, "selected");
+	});
 });
-
-
-
-
-
-
-
-
-
-
-
-
