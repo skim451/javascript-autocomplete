@@ -165,6 +165,7 @@ a {
     position: relative;
     top: -18px;
     background: #84D4D0;
+    z-index: 1
 }
 
 .auto-complete-list > li > span {
