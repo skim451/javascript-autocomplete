@@ -29,16 +29,13 @@ Networking.prototype = {
     }
 }
 
-function AutoComplete() {
-
+function AutoComplete(resultList) {
+    this.menuData = [];
+    this.resultListDOM = resultList;
+    this.selectedIndex = -1;
 }
 
 AutoComplete.prototype = {
-    init: function() {
-        this.menuData = [];
-        this.resultListDOM = $('.result_list');
-        this.selectedIndex = -1;
-    },
     show: function(word) {
         if(!this.menuData) {
             return;
@@ -83,16 +80,15 @@ AutoComplete.prototype = {
     }
 }
 
-function EventHandler(networking, autoComplete) {
+function EventHandler(networking, autoComplete, inputBox, searchButton) {
     this.networking = networking;
     this.autoComplete = autoComplete
+    this.inputText = inputBox;
+    this.searchButton = searchButton;
 }
 
 EventHandler.prototype = {
     init: function() {
-        this.inputText = $('#input_box');
-        this.searchButton = $('#search_button');
-
         this.inputText.addEventListener('keydown', this.onKeyDown.bind(this));
         this.inputText.addEventListener('keyup', this.onKeyUp.bind(this));
         this.searchButton.addEventListener('click', this.searchButtonEvent);
@@ -127,10 +123,11 @@ EventHandler.prototype = {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    var autoComplete = new AutoComplete();
-    autoComplete.init()
+    var autoComplete = new AutoComplete($('.result_list'));
 
-    var eventHandler = new EventHandler(new Networking(), autoComplete);
+    var eventHandler = new EventHandler(new Networking(),
+        autoComplete,
+        $('#input_box'),
+        $('#search_button'));
     eventHandler.init()
 });
-

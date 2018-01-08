@@ -1,4 +1,4 @@
-const assert = chai.assert; 
+const assert = chai.assert;
 
 describe('Networking Test', function(){
 	it('오징, shoul equal', function(done) {
@@ -10,7 +10,7 @@ describe('Networking Test', function(){
 			,"오징어짬뽕"
 			,"총알오징어"
 			,"대왕오징어"
-			,"오징어집"]
+			,"오징어집"];
 		var networking = new Networking();
 
 		networking.sendAPIRequest("오징", function(data) {
@@ -25,7 +25,7 @@ describe('Networking Test', function(){
 			,"얼갈이된장무침"
 			,"차돌박이 된장찌개"
 			,"시금치 된장국"
-			,"강된장"]
+			,"강된장"];
 
 		var networking = new Networking();
 
@@ -44,7 +44,7 @@ describe('Networking Test', function(){
 			,"오징어짬뽕"
 			,"총알오징어"
 			,"대왕오징어"
-			,"오징어"]
+			,"오징어"];
 
 		var networking = new Networking();
 
@@ -58,3 +58,37 @@ describe('Networking Test', function(){
 
 }); 
 
+describe('EventHandler', function(){
+    it('onKeyDown Event is OK', function(){
+        var inputBox = document.createElement("input");
+        inputBox.id = "input_box";
+        var keyDownEvent = new Event("keyDown");
+        keyDownEvent.keyCode = 38;
+        inputBox.dispatchEvent(keyDownEvent);
+    });
+    it('', function(){
+
+    })
+});
+
+describe('auto', function(){
+    var resultListDom = document.createElement("div");
+    resultListDom.classList.add('result_list');
+    var auto = new AutoComplete(resultListDom);
+    auto.menuData.push("오징어볶음"
+        ,"젖은오징어"
+        ,"오징어무국"
+        ,"반건조오징어"
+        ,"군산오징어"
+        ,"오징어짬뽕"
+        ,"총알오징어"
+        ,"대왕오징어"
+        ,"오징어");
+    it('show test', function(){
+        auto.show('오징')
+        var childList = resultListDom.childNodes[0].childNodes;
+        assert.equal(resultListDom.style.display, "block")
+        assert.equal(childList.length, auto.menuData.length)
+        assert.include(childList[0].innerHTML, "<span>오징</span>")
+    })
+});
