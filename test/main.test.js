@@ -74,6 +74,7 @@ describe('EventHandler', function(){
 describe('auto', function(){
     var resultListDom = document.createElement("div");
     resultListDom.classList.add('result_list');
+
     var auto = new AutoComplete(resultListDom);
     auto.menuData.push("오징어볶음"
         ,"젖은오징어"
@@ -84,11 +85,32 @@ describe('auto', function(){
         ,"총알오징어"
         ,"대왕오징어"
         ,"오징어");
+
     it('show test', function(){
         auto.show('오징')
         var childList = resultListDom.childNodes[0].childNodes;
-        assert.equal(resultListDom.style.display, "block")
-        assert.equal(childList.length, auto.menuData.length)
-        assert.include(childList[0].innerHTML, "<span>오징</span>")
-    })
+        assert.equal(resultListDom.style.display, "block");
+        assert.equal(childList.length, auto.menuData.length);
+        assert.include(childList[0].innerHTML, "<span>오징</span>");
+    });
+
+    it('close test', function() {
+    	auto.close(); 
+
+    	assert.equal(auto.selectedIndex, -1); 
+    	console.log(auto.resultListDOM)
+    	assert.equal(auto.resultListDOM.style.display, 'none');
+    });
 });
+
+
+
+
+
+
+
+
+
+
+
+
