@@ -24,20 +24,21 @@ var networking = {
 }
 
 var autoComplete = {
-    menuData: [],
-    resultListDOM: $('.result_list'),
-    selectedIndex: -1,
-
+    init: function() {
+        this.menuData = [];
+        this.resultListDOM = $('.result_list');
+        this.selectedIndex = -1;
+    },
     show: function(word) {
         if(!this.menuData) {
             return;
         }
         this.resultListDOM.style.display = 'block';
         let html = "<ul>"
-        for(let i=0; i < this.menuData.length; i++) {
-            let specialWord = this.menuData[i].replace(word, "<span>" + word + "</span>");
+        this.menuData.forEach(function(data) {
+            let specialWord = data.replace(word, "<span>" + word + "</span>");
             html += "<li>" + specialWord + "</li>"
-        }
+        })
         this.resultListDOM.innerHTML = html + "</ul>"
     },
     close: function() {
@@ -73,18 +74,18 @@ var autoComplete = {
 }
 
 var eventHandler = {
-    inputText: $('#input_box'),
-    autoComplete: autoComplete,
-
+    init: function() {
+        this.inputText = $('#input_box');
+    },
     onKeyDown: function(event) {
         let key = event.keyCode
         if (key === 38) {
-            this.autoComplete.upKeyPressed()
+            autoComplete.upKeyPressed()
         } else if(key === 40) {
-            this.autoComplete.downKeyPress()
+            autoComplete.downKeyPress()
         } else if(key === 13) {
-            this.inputText.value = this.autoComplete.enterPressed();
-            this.autoComplete.close();
+            this.inputText.value = autoComplete.enterPressed();
+            autoComplete.close();
         }
     },
     onKeyUp: function(event) {
@@ -93,11 +94,14 @@ var eventHandler = {
             return;
         }
         if(networking.sendAPIRequest(this.inputText.value)) {
-            this.autoComplete.menuData = networking.sendAPIRequest(this.inputText.value);
+            autoComplete.menuData = networking.sendAPIRequest(this.inputText.value);
         }
-        this.autoComplete.show(this.inputText.value);
+        autoComplete.show(this.inputText.value);
     },
     searchButtonEvent: function() {
-        this.autoComplete.close();
+        autoComplete.close();
     }
 }
+
+autoComplete.init()
+eventHandler.init()
