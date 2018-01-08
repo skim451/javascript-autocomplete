@@ -160,7 +160,7 @@ describe('EventHandler', function(){
 	it('searchButton Event Test', function() {
 		var event = new Event("keyup"); 
 
-		eventHandler.searchButtonEvent(event); 
+		eventHandler.onSearchButtonClick(event); 
 		assert.equal(eventHandler.autoComplete.result, 'close'); 
 	});
 });
