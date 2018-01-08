@@ -93,7 +93,7 @@ EventHandler.prototype = {
     init: function() {
         this.inputText.addEventListener('keydown', this.onKeyDown.bind(this));
         this.inputText.addEventListener('keyup', this.onKeyUp.bind(this));
-        this.searchButton.addEventListener('click', this.searchButtonEvent);
+        this.searchButton.addEventListener('click', this.onSearchButtonClicked());
     },
     onKeyDown: function(event) {
         let key = event.keyCode;
@@ -120,7 +120,7 @@ EventHandler.prototype = {
             }
         }.bind(this));
     },
-    searchButtonEvent: function() {
+    onSearchButtonClicked: function() {
         this.autoComplete.close();
     }
 }
