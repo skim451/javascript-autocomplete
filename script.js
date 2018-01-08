@@ -78,8 +78,8 @@ var eventHandler = {
         this.inputText = $('#input_box');
         this.searchButton = $('#search_button');
 
-        this.inputText.addEventListener('keydown', this.onKeyDown);
-        this.inputText.addEventListener('keyup', this.onKeyUp);
+        this.inputText.addEventListener('keydown', this.onKeyDown.bind(this));
+        this.inputText.addEventListener('keyup', this.onKeyUp.bind(this));
         this.searchButton.addEventListener('click', this.searchButtonEvent);
     },
     onKeyDown: function(event) {
@@ -89,20 +89,20 @@ var eventHandler = {
         } else if(key === 40) {
             autoComplete.downKeyPress();
         } else if(key === 13) {
-            this.value = autoComplete.enterPressed();
+            this.inputText.value = autoComplete.enterPressed();
             autoComplete.close();
         }
     },
     onKeyUp: function(event) {
         let key = event.keyCode;
+        let data = networking.sendAPIRequest(this.inputText.value);
         if(key === 38 || key === 40 || key === 13) {
             return;
         }
-        console.log(this.value);
-        if(networking.sendAPIRequest(this.value)) {
-            autoComplete.menuData = networking.sendAPIRequest(this.value);
+        if(data) {
+            autoComplete.menuData = data;
         }
-        autoComplete.show(this.value);
+        autoComplete.show(this.inputText.value);
     },
     searchButtonEvent: function() {
         autoComplete.close();
