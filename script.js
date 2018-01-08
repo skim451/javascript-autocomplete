@@ -2,7 +2,11 @@ function $(query) {
     return document.querySelector(query);
 }
 
-var networking = {
+function Networking() {
+
+}
+
+Networking.prototype = {
     sendAPIRequest: function(query) {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "http://crong.codesquad.kr:8080/ac/" + query, false);
@@ -23,7 +27,11 @@ var networking = {
     }
 }
 
-var autoComplete = {
+function AutoComplete() {
+
+}
+
+AutoComplete.prototype = {
     init: function() {
         this.menuData = [];
         this.resultListDOM = $('.result_list');
@@ -73,7 +81,11 @@ var autoComplete = {
     }
 }
 
-var eventHandler = {
+function EventHandler(networking) {
+    this.networking = networking; 
+}
+
+EventHandler.prototype = {
     init: function() {
         this.inputText = $('#input_box');
         this.searchButton = $('#search_button');
@@ -109,5 +121,8 @@ var eventHandler = {
     }
 }
 
+var autoComplete = new AutoComplete(); 
 autoComplete.init()
+
+var eventHandler = new EventHandler(new Networking()); 
 eventHandler.init()
