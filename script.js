@@ -66,33 +66,40 @@ var autoComplete = {
             return;
         }
         if(this.selectedIndex > -1) {
-            listDOM[this.selectedIndex].classList.remove('selected')
+            listDOM[this.selectedIndex].classList.remove('selected');
         }
         this.selectedIndex++;
-        listDOM[this.selectedIndex].classList.add('selected')
+        listDOM[this.selectedIndex].classList.add('selected');
     }
 }
 
 var eventHandler = {
     init: function() {
         this.inputText = $('#input_box');
+        this.searchButton = $('#search_button');
+
+        this.inputText.addEventListener('keyup', this.onKeyUp);
+        this.inputText.addEventListener('keydown', this.onKeyDown);
+        this.searchButton.addEventListener('click', this.searchButtonEvent);
+        console.log(this.inputText, 1);
     },
     onKeyDown: function(event) {
-        let key = event.keyCode
+        let key = event.keyCode;
         if (key === 38) {
-            autoComplete.upKeyPressed()
+            autoComplete.upKeyPressed();
         } else if(key === 40) {
-            autoComplete.downKeyPress()
+            autoComplete.downKeyPress();
         } else if(key === 13) {
             this.inputText.value = autoComplete.enterPressed();
             autoComplete.close();
         }
     },
     onKeyUp: function(event) {
-        let key = event.keyCode
+        let key = event.keyCode;
         if(key === 38 || key === 40 || key === 13) {
             return;
         }
+        console.log(this.inputText.value);
         if(networking.sendAPIRequest(this.inputText.value)) {
             autoComplete.menuData = networking.sendAPIRequest(this.inputText.value);
         }
