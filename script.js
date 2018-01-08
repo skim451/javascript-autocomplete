@@ -107,16 +107,18 @@ EventHandler.prototype = {
     },
     onKeyUp: function(event) {
         let key = event.keyCode;
+        if(key === 38 || key === 40 || key === 13) {
+            return;
+        }
+
         this.networking.sendAPIRequest(this.inputText.value, function(data) {
-            if(key === 38 || key === 40 || key === 13) {
-                return;
-            }
             if(data) {
                 this.autoComplete.menuData = data;
+                this.autoComplete.show(this.inputText.value);
+            } else { 
+                this.autoComplete.close(); 
             }
-            this.autoComplete.show(this.inputText.value);
         }.bind(this));
-
     },
     searchButtonEvent: function() {
         this.autoComplete.close();
