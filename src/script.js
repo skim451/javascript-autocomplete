@@ -72,11 +72,20 @@ class EventHandler {
     }
 
     init() {
-        this.inputText.addEventListener('keydown', this.onKeyDown.bind(this));
-        this.inputText.addEventListener('keyup', this.onKeyUp.bind(this));
-        this.searchButton.addEventListener('click', this.onSearchButtonClick.bind(this));
-        this.autoComplete.listDOM.addEventListener('mouseover', this.onMouseHover.bind(this));
-        this.autoComplete.listDOM.addEventListener('click', this.onMouseClick.bind(this));
+        this.inputText.addEventListener('keydown', (e) => this.onKeyDown(e));
+        this.inputText.addEventListener('keyup', (e) => this.onKeyUp(e));
+        this.inputText.addEventListener('focusout', (e) => this.onFocusout(e), true); 
+        this.searchButton.addEventListener('click', () => this.onSearchButtonClick());
+        this.autoComplete.listDOM.addEventListener('mouseover', (e) => this.onMouseHover(e));
+        this.autoComplete.listDOM.addEventListener('mousedown', (e) => this.onMouseClick(e));
+    }
+
+    onFocusout(event) {
+        let target = event.target; 
+        if(!target) { 
+            return; 
+        }        
+        this.autoComplete.close(); 
     }
 
     onKeyDown(event) {
@@ -110,6 +119,7 @@ class EventHandler {
     }
 
     onSearchButtonClick() {
+
         this.autoComplete.close();
     }
 
@@ -124,7 +134,6 @@ class EventHandler {
     onMouseClick(event) {
         this.inputText.value = this.autoComplete.itemSelected();
     }
-
 }
 
 document.addEventListener('DOMContentLoaded', function () {
