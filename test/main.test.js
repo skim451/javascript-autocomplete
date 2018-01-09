@@ -181,7 +181,7 @@ describe('auto', function(){
         ,"오징어");
 
     it('show test', function(){
-        auto.show('오징')
+        auto.show('오징');
         var childList = resultListDom.childNodes[0].childNodes;
         assert.equal(resultListDom.style.display, "block");
         assert.equal(childList.length, auto.menuData.length);

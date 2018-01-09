@@ -5,7 +5,7 @@ function $(query) {
 class Networking {
     sendAPIRequest(query, callback) {
         var xhr = new XMLHttpRequest();
-        xhr.addEventListener("load", function(e) {
+        xhr.addEventListener("load", function (e) {
             var data = this.convertData(xhr.responseText);
             callback(data);
         }.bind(this));
@@ -16,10 +16,10 @@ class Networking {
     convertData(data) {
         let result = []
         let json = JSON.parse(data)
-        if(!json[1]) {
+        if (!json[1]) {
             return
         }
-        json[1].forEach(function(val) {
+        json[1].forEach(function (val) {
             result.push(val[0])
         })
         return result
@@ -30,22 +30,21 @@ class AutoComplete {
     constructor(resultList) {
         this.menuData = [];
         this.resultListDOM = resultList;
-        this.selectedIndex = -1; 
+        this.selectedIndex = -1;
     }
 
     show(word) {
-        if(!this.menuData) {
+        if (!this.menuData) {
             return;
         }
         this.selectedIndex = -1;
         this.resultListDOM.style.display = 'block';
         let html = ""
-        this.menuData.forEach(function(data) {
-                let specialWord = data.replace(word, `<span> ${word} </span>`);
-            }
-            html += `<li> ${specialWord} </li>`;
+        this.menuData.forEach(function (data) {
+            let specialWord = data.replace(word, `<span>${word}</span>`);
+            html += `<li>${specialWord}</li>`;
         });
-        this.resultListDOM.innerHTML = `<ul> ${html} </ul>`;
+        this.resultListDOM.innerHTML = `<ul>${html}</ul>`;
 
     }
 
@@ -67,7 +66,7 @@ class AutoComplete {
         }
         listDOM[this.selectedIndex].classList.remove('selected')
         this.selectedIndex--;
-        if(this.selectedIndex >= 0) {
+        if (this.selectedIndex >= 0) {
             listDOM[this.selectedIndex].classList.add('selected')
         }
     }
@@ -77,7 +76,7 @@ class AutoComplete {
         if (this.selectedIndex >= this.menuData.length - 1) {
             return;
         }
-        if(this.selectedIndex > -1) {
+        if (this.selectedIndex > -1) {
             listDOM[this.selectedIndex].classList.remove('selected');
         }
         this.selectedIndex++;
@@ -103,25 +102,25 @@ class EventHandler {
         let key = event.keyCode;
         if (key === 38) {
             this.autoComplete.upKeyPressed();
-        } else if(key === 40) {
+        } else if (key === 40) {
             this.autoComplete.downKeyPressed();
-        } else if(key === 13) {
+        } else if (key === 13) {
             this.inputText.value = this.autoComplete.enterPressed();
         }
     }
 
     onKeyUp(event) {
         let key = event.keyCode;
-        if(key === 38 || key === 40 || key === 13) {
+        if (key === 38 || key === 40 || key === 13) {
             return;
         }
 
-        this.networking.sendAPIRequest(this.inputText.value, function(data) {
-            if(data) {
+        this.networking.sendAPIRequest(this.inputText.value, function (data) {
+            if (data) {
                 this.autoComplete.menuData = data;
                 this.autoComplete.show(this.inputText.value);
-            } else { 
-                this.autoComplete.close(); 
+            } else {
+                this.autoComplete.close();
             }
         }.bind(this));
     }
