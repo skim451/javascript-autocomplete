@@ -24,7 +24,6 @@ class AutoComplete {
             html += `<li>${specialWord}</li>`;
         });
         this.listDOM.innerHTML = html;
-
     }
 
     close() {
@@ -97,14 +96,17 @@ class EventHandler {
             return;
         }
 
-        this.networking.sendAPIRequest(this.inputText.value, function (data) {
+        let afterDataRevc = (data) => {
             if (data) {
                 this.autoComplete.menuData = data;
                 this.autoComplete.show(this.inputText.value);
             } else {
                 this.autoComplete.close();
             }
-        }.bind(this));
+        }
+
+        this.networking.sendAPIRequest(this.inputText.value)
+                        .then(afterDataRevc);
     }
 
     onSearchButtonClick() {
