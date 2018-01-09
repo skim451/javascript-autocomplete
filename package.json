@@ -4,7 +4,9 @@
   "description": "## 클래스 종류 - SearchBar - AutoComplete",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build" : "webpack",
+    "server" : "webpack-dev-server --inline --public 0.0.0.0:8080"
   },
   "repository": {
     "type": "git",
