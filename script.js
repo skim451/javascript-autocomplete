@@ -31,6 +31,7 @@ class AutoComplete {
         this.menuData = [];
         this.resultListDOM = resultList;
         this.selectedIndex = -1;
+        this.listDOM = this.resultListDOM.children[0];
     }
 
     show(word) {
@@ -44,7 +45,7 @@ class AutoComplete {
             let specialWord = data.replace(word, `<span>${word}</span>`);
             html += `<li>${specialWord}</li>`;
         });
-        this.resultListDOM.innerHTML = `<ul>${html}</ul>`;
+        this.listDOM.innerHTML = html;
 
     }
 
@@ -60,27 +61,28 @@ class AutoComplete {
     }
 
     upKeyPressed() {
-        let listDOM = this.resultListDOM.childNodes[0].children;
-        if (this.selectedIndex == -1) {
-            return;
-        }
-        listDOM[this.selectedIndex].classList.remove('selected')
-        this.selectedIndex--;
-        if (this.selectedIndex >= 0) {
-            listDOM[this.selectedIndex].classList.add('selected')
-        }
+        this.changeSelected(this.selectedIndex - 1);
     }
 
     downKeyPressed() {
-        let listDOM = this.resultListDOM.childNodes[0].children;
-        if (this.selectedIndex >= this.menuData.length - 1) {
-            return;
+        this.changeSelected(this.selectedIndex + 1);
+    }
+
+    changeSelected(index) {
+        let list = this.listDOM.children;
+        if (this.selectedIndex !== -1) {
+            list[this.selectedIndex].classList.remove('selected')
         }
-        if (this.selectedIndex > -1) {
-            listDOM[this.selectedIndex].classList.remove('selected');
+        if (index >= 0 && index < list.length) {
+            this.selectedIndex = index;
+            list[this.selectedIndex].classList.add('selected')
         }
-        this.selectedIndex++;
-        listDOM[this.selectedIndex].classList.add('selected');
+    }
+
+    mouseHovered(item) {
+        let index = Array.prototype.indexOf.call(this.listDOM.children, item);
+
+        this.changeSelected(index);
     }
 }
 
@@ -96,6 +98,7 @@ class EventHandler {
         this.inputText.addEventListener('keydown', this.onKeyDown.bind(this));
         this.inputText.addEventListener('keyup', this.onKeyUp.bind(this));
         this.searchButton.addEventListener('click', this.onSearchButtonClick());
+        this.autoComplete.listDOM.addEventListener('mouseover', this.onMouseHover.bind(this));
     }
 
     onKeyDown(event) {
@@ -128,6 +131,18 @@ class EventHandler {
     onSearchButtonClick() {
         this.autoComplete.close();
     }
+
+    onMouseHover(event) {
+        let hoveredItem = event.target;
+
+        if (!hoveredItem || hoveredItem.nodeName !== "LI") {
+            return;
+        }
+
+        this.autoComplete.mouseHovered(hoveredItem);
+    }
+
+
 }
 
 document.addEventListener('DOMContentLoaded', function () {
