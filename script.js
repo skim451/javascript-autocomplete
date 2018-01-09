@@ -39,12 +39,14 @@ class AutoComplete {
         }
         this.selectedIndex = -1;
         this.resultListDOM.style.display = 'block';
-        let html = "<ul>"
+        let html = ""
         this.menuData.forEach(function(data) {
-            let specialWord = data.replace(word, "<span>" + word + "</span>");
-            html += "<li>" + specialWord + "</li>"
-        })
-        this.resultListDOM.innerHTML = html + "</ul>"
+                let specialWord = data.replace(word, `<span> ${word} </span>`);
+            }
+            html += `<li> ${specialWord} </li>`;
+        });
+        this.resultListDOM.innerHTML = `<ul> ${html} </ul>`;
+
     }
 
     close() {
