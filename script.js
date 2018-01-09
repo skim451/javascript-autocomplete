@@ -54,7 +54,7 @@ class AutoComplete {
         this.selectedIndex = -1;
     }
 
-    enterPressed() {
+    itemSelected() {
         var currData = this.menuData[this.selectedIndex];
         this.close();
         return currData;
@@ -99,6 +99,7 @@ class EventHandler {
         this.inputText.addEventListener('keyup', this.onKeyUp.bind(this));
         this.searchButton.addEventListener('click', this.onSearchButtonClick());
         this.autoComplete.listDOM.addEventListener('mouseover', this.onMouseHover.bind(this));
+        this.autoComplete.listDOM.addEventListener('click', this.onMouseClick.bind(this));
     }
 
     onKeyDown(event) {
@@ -108,7 +109,7 @@ class EventHandler {
         } else if (key === 40) {
             this.autoComplete.downKeyPressed();
         } else if (key === 13) {
-            this.inputText.value = this.autoComplete.enterPressed();
+            this.inputText.value = this.autoComplete.itemSelected();
         }
     }
 
@@ -134,14 +135,15 @@ class EventHandler {
 
     onMouseHover(event) {
         let hoveredItem = event.target;
-
         if (!hoveredItem || hoveredItem.nodeName !== "LI") {
             return;
         }
-
         this.autoComplete.mouseHovered(hoveredItem);
     }
 
+    onMouseClick(event) {
+        this.inputText.value = this.autoComplete.itemSelected();
+    }
 
 }
 
