@@ -97,7 +97,7 @@ class EventHandler {
     init() {
         this.inputText.addEventListener('keydown', this.onKeyDown.bind(this));
         this.inputText.addEventListener('keyup', this.onKeyUp.bind(this));
-        this.searchButton.addEventListener('click', this.onSearchButtonClick());
+        this.searchButton.addEventListener('click', this.onSearchButtonClick.bind(this));
         this.autoComplete.listDOM.addEventListener('mouseover', this.onMouseHover.bind(this));
         this.autoComplete.listDOM.addEventListener('click', this.onMouseClick.bind(this));
     }
