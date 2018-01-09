@@ -2,12 +2,8 @@ function $(query) {
     return document.querySelector(query);
 }
 
-function Networking() {
-
-}
-
-Networking.prototype = {
-    sendAPIRequest: function(query, callback) {
+class Networking {
+    sendAPIRequest(query, callback) {
         var xhr = new XMLHttpRequest();
         xhr.addEventListener("load", function(e) {
             var data = this.convertData(xhr.responseText);
@@ -15,8 +11,9 @@ Networking.prototype = {
         }.bind(this));
         xhr.open("GET", "http://crong.codesquad.kr:8080/ac/" + query);
         xhr.send();
-    },
-    convertData: function(data) {
+    }
+
+    convertData(data) {
         let result = []
         let json = JSON.parse(data)
         if(!json[1]) {
@@ -29,14 +26,14 @@ Networking.prototype = {
     }
 }
 
-function AutoComplete(resultList) {
-    this.menuData = [];
-    this.resultListDOM = resultList;
-    this.selectedIndex = -1;
-}
+class AutoComplete {
+    constructor(resultList) {
+        this.menuData = [];
+        this.resultListDOM = resultList;
+        this.selectedIndex = -1; 
+    }
 
-AutoComplete.prototype = {
-    show: function(word) {
+    show(word) {
         if(!this.menuData) {
             return;
         }
@@ -48,17 +45,20 @@ AutoComplete.prototype = {
             html += "<li>" + specialWord + "</li>"
         })
         this.resultListDOM.innerHTML = html + "</ul>"
-    },
-    close: function() {
+    }
+
+    close() {
         this.resultListDOM.style.display = 'none';
         this.selectedIndex = -1;
-    },
-    enterPressed: function() {
+    }
+
+    enterPressed() {
         var currData = this.menuData[this.selectedIndex];
         this.close();
         return currData;
-    },
-    upKeyPressed: function() {
+    }
+
+    upKeyPressed() {
         let listDOM = this.resultListDOM.childNodes[0].children;
         if (this.selectedIndex == -1) {
             return;
@@ -68,8 +68,9 @@ AutoComplete.prototype = {
         if(this.selectedIndex >= 0) {
             listDOM[this.selectedIndex].classList.add('selected')
         }
-    },
-    downKeyPressed: function() {
+    }
+
+    downKeyPressed() {
         let listDOM = this.resultListDOM.childNodes[0].children;
         if (this.selectedIndex >= this.menuData.length - 1) {
             return;
@@ -82,20 +83,21 @@ AutoComplete.prototype = {
     }
 }
 
-function EventHandler(networking, autoComplete, inputBox, searchButton) {
-    this.networking = networking;
-    this.autoComplete = autoComplete
-    this.inputText = inputBox;
-    this.searchButton = searchButton;
-}
+class EventHandler {
+    constructor(networking, autoComplete, inputBox, searchButton) {
+        this.networking = networking;
+        this.autoComplete = autoComplete
+        this.inputText = inputBox;
+        this.searchButton = searchButton;
+    }
 
-EventHandler.prototype = {
-    init: function() {
+    init() {
         this.inputText.addEventListener('keydown', this.onKeyDown.bind(this));
         this.inputText.addEventListener('keyup', this.onKeyUp.bind(this));
         this.searchButton.addEventListener('click', this.onSearchButtonClick());
-    },
-    onKeyDown: function(event) {
+    }
+
+    onKeyDown(event) {
         let key = event.keyCode;
         if (key === 38) {
             this.autoComplete.upKeyPressed();
@@ -104,8 +106,9 @@ EventHandler.prototype = {
         } else if(key === 13) {
             this.inputText.value = this.autoComplete.enterPressed();
         }
-    },
-    onKeyUp: function(event) {
+    }
+
+    onKeyUp(event) {
         let key = event.keyCode;
         if(key === 38 || key === 40 || key === 13) {
             return;
@@ -119,8 +122,9 @@ EventHandler.prototype = {
                 this.autoComplete.close(); 
             }
         }.bind(this));
-    },
-    onSearchButtonClick: function() {
+    }
+
+    onSearchButtonClick() {
         this.autoComplete.close();
     }
 }
