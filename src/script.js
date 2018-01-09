@@ -18,12 +18,9 @@ class AutoComplete {
         }
         this.selectedIndex = -1;
         this.resultListDOM.style.display = 'block';
-        let html = ""
-        this.menuData.forEach(function (data) {
-            let specialWord = data.replace(word, `<span>${word}</span>`);
-            html += `<li>${specialWord}</li>`;
-        });
-        this.listDOM.innerHTML = html;
+        
+        this.listDOM.innerHTML = this.menuData.reduce((acc, curr) => 
+                acc += `<li>${curr.replace(word, `<span>${word}</span>`)}</li>`, "");
     }
 
     close() {
