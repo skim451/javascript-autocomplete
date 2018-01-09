@@ -32,7 +32,7 @@ class AutoComplete {
     }
 
     itemSelected() {
-        var currData = this.menuData[this.selectedIndex];
+        const currData = this.menuData[this.selectedIndex];
         this.close();
         return currData;
     }
@@ -128,9 +128,9 @@ class EventHandler {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    var autoComplete = new AutoComplete($('.result_list'));
+    const autoComplete = new AutoComplete($('.result_list'));
 
-    var eventHandler = new EventHandler(new Networking(),
+    const eventHandler = new EventHandler(new Networking(),
         autoComplete,
         $('#input_box'),
         $('#search_button'));
