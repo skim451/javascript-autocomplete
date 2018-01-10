@@ -18,9 +18,9 @@ class AutoComplete {
             this.cache.splice(this.cache.indexOf(query), 1);
         }
         if (this.cache.length >= 5) {
-            this.cache.shift();
+            this.cache.pop();
         }
-        this.cache.push(query);
+        this.cache.unshift(query);
     }
 
     show(word) {
@@ -88,6 +88,8 @@ class EventHandler {
 
     init() {
         this.setInputParam();
+        this.inputText.addEventListener('focusin', (e) =>
+            this.onFocusin(e));
         this.inputText.addEventListener('keydown', (e) => 
             this.onKeyDown(e));
         this.inputText.addEventListener('keyup', (e) => 
@@ -112,6 +114,12 @@ class EventHandler {
         const name = new URLSearchParams(url.search)
         const searchKeyword = name.get("name");
         this.inputText.value = searchKeyword;
+    }
+
+    onFocusin(event) {
+        if(event.target.value !== "") return;
+        this.autoComplete.menuData = this.autoComplete.cache;
+        this.autoComplete.show();
     }
 
     onFocusout(event) {
