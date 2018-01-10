@@ -1,30 +1,39 @@
-class Networking {
-    constructor() { 
-        //this.log = []
-        this.cache = {}
-
-        this.init(); 
+class Cache {
+    constructor()  {
+        this.networkCache = {};
+        this.recentCache = {};
+        this.init();
     }
-
     init() {
-        this.loadCache(); 
+        this.loadStorage();
         window.addEventListener("beforeunload", () => this.saveCache());
     }
-
-    loadCache() {
+    loadStorage() {
         // const log = localStorage.getItem("log");
         // if(log) {
         //     this.log = JSON.parse(log);
         // }
-        const cache = window.localStorage.getItem("cache");
-        if(cache) {
-            this.cache = JSON.parse(cache);
+        const networkCache = window.localStorage.getItem("networkCache");
+        if(networkCache) {
+            this.networkCache = JSON.parse(networkCache);
+        }
+
+        const recentCache = window.localStorage.getItem("recentCache");
+        if(recentCache) {
+            this.recentCache = JSON.parse(recentCache);
         }
     }
 
     saveCache() {
         //localStorage.setItem("log", JSON.stringify(this.log));
-        window.localStorage.setItem("cache", JSON.stringify(this.cache));
+        window.localStorage.setItem("networkCache", JSON.stringify(this.networkCache));
+    }
+}
+
+class Networking {
+    constructor(storage) {
+        //this.log = []
+        this.cache = storage.networkCache;
     }
 
     insertCacheData(query, data) {
@@ -61,15 +70,15 @@ class Networking {
                 });
                 xhr.open("GET", "http://crong.codesquad.kr:8080/ac/" + query);
                 xhr.send();
-            }); 
+            });
         } else {
             console.log("hit!!!");
             promise = new Promise((resolve) => {
                 resolve(this.cache[query]["data"]);
-            }); 
-        }     
+            });
+        }
 
-        return promise; 
+        return promise;
     }
 
     convertData(data) {
@@ -85,4 +94,4 @@ class Networking {
     }
 }
 
-export default Networking
+export {Networking, Cache}

@@ -1,4 +1,4 @@
-import Networking from './networking.js'
+import {Networking, Cache} from './networking.js'
 
 function $(query) {
     return document.querySelector(query);
@@ -18,8 +18,8 @@ class AutoComplete {
         }
         this.selectedIndex = -1;
         this.resultListDOM.style.display = 'block';
-        
-        this.listDOM.innerHTML = this.menuData.reduce((acc, curr) => 
+
+        this.listDOM.innerHTML = this.menuData.reduce((acc, curr) =>
                 acc += `<li>${curr.replace(word, `<span>${word}</span>`)}</li>`, "");
     }
 
@@ -71,18 +71,18 @@ class EventHandler {
     init() {
         this.inputText.addEventListener('keydown', (e) => this.onKeyDown(e));
         this.inputText.addEventListener('keyup', (e) => this.onKeyUp(e));
-        this.inputText.addEventListener('focusout', (e) => this.onFocusout(e), true); 
+        this.inputText.addEventListener('focusout', (e) => this.onFocusout(e), true);
         this.searchButton.addEventListener('click', () => this.onSearchButtonClick());
         this.autoComplete.listDOM.addEventListener('mouseover', (e) => this.onMouseHover(e));
         this.autoComplete.listDOM.addEventListener('mousedown', (e) => this.onMouseClick(e));
     }
 
     onFocusout(event) {
-        let target = event.target; 
-        if(!target) { 
-            return; 
-        }        
-        this.autoComplete.close(); 
+        let target = event.target;
+        if(!target) {
+            return;
+        }
+        this.autoComplete.close();
     }
 
     onKeyDown(event) {
@@ -134,11 +134,14 @@ class EventHandler {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    // window.localStorage.clear()
+    const storage = new Cache();
     const autoComplete = new AutoComplete($('.result_list'));
 
-    const eventHandler = new EventHandler(new Networking(),
+    const eventHandler = new EventHandler(new Networking(storage),
         autoComplete,
         $('#input_box'),
         $('#search_button'));
     eventHandler.init()
+
 });
