@@ -1,43 +1,61 @@
 class Networking {
     constructor() { 
-        this.log = []
-        this.cotent = {} 
+        //this.log = []
+        this.cache = {} 
 
-        window.addEventListener("beforeunload", 
-            (event) => localStorage.setItem("hello", Date.now().toString()));
+        this.init(); 
     }
 
     init() {
-        this.load(); 
-        window.addEventListener("beforeunload", () => saveCache());
+        this.loadCache(); 
+        window.addEventListener("beforeunload", () => this.saveCache());
     }
 
     loadCache() {
-        const log = localStorage.getItem("log");
-        if(log) {
-            this.log = JSON.parse(log);
-        }
-        const content = localStorage.getItem("content");
-        if(content) {
-            this.content = JSON.parse(content);
+        // const log = localStorage.getItem("log");
+        // if(log) {
+        //     this.log = JSON.parse(log);
+        // }
+        const cache = window.localStorage.getItem("cache");
+        if(cache) {
+            this.cache = JSON.parse(cache);
         }
     }
 
     saveCache() {
-        localStorage.setItem("log", JSON.stringify(this.log));
-        localStorage.setItem("content", JSON.stringify(this.content)); 
+        //localStorage.setItem("log", JSON.stringify(this.log));
+        window.localStorage.setItem("cache", JSON.stringify(this.cache));
+    }
+
+    insertCacheData(query, data) {
+        const time = Date.now(); 
+        const value = { "data" : data, 
+                        "time" : time };
+
+        this.cache[query] = value;
     }
 
     sendAPIRequest(query) {
-        let promise = new Promise((resolve, reject) => {
-            var xhr = new XMLHttpRequest();
-            xhr.addEventListener("load", function (e) {
-                var data = this.convertData(xhr.responseText);
-                resolve(data);
-            }.bind(this));
-            xhr.open("GET", "http://crong.codesquad.kr:8080/ac/" + query);
-            xhr.send();
-        }); 
+        let promise; 
+
+        if(!this.cache[query]) {
+            console.log("miss!!")
+            promise = new Promise((resolve) => {
+                var xhr = new XMLHttpRequest();
+                xhr.addEventListener("load", (e) => {
+                    var data = this.convertData(xhr.responseText);
+                    this.insertCacheData(query, data);
+                    resolve(data);
+                });
+                xhr.open("GET", "http://crong.codesquad.kr:8080/ac/" + query);
+                xhr.send();
+            }); 
+        } else {
+            console.log("hit!!!")
+            promise = new Promise((resolve) => {
+                resolve(this.cache[query]["data"]);
+            }); 
+        }     
 
         return promise; 
     }
