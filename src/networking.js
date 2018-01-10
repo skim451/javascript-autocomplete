@@ -1,7 +1,7 @@
 class Cache {
     constructor()  {
         this.networkCache = {};
-        this.recentCache = {};
+        this.recentCache = [];
         this.init();
     }
     init() {
@@ -27,6 +27,8 @@ class Cache {
     saveCache() {
         //localStorage.setItem("log", JSON.stringify(this.log));
         window.localStorage.setItem("networkCache", JSON.stringify(this.networkCache));
+        window.localStorage.setItem("recentCache", JSON.stringify(this.recentCache));
+
     }
 }
 

@@ -5,11 +5,22 @@ function $(query) {
 }
 
 class AutoComplete {
-    constructor(resultList) {
+    constructor(resultList, storage) {
         this.menuData = [];
         this.resultListDOM = resultList;
         this.selectedIndex = -1;
         this.listDOM = this.resultListDOM.children[0];
+        this.cache = storage.recentCache;
+    }
+
+    insertCacheData(query) {
+        if (this.cache.includes(query)) {
+            this.cache.splice(this.cache.indexOf(query), 1);
+        }
+        if (this.cache.length >= 5) {
+            this.cache.shift();
+        }
+        this.cache.push(query);
     }
 
     show(word) {
@@ -31,6 +42,7 @@ class AutoComplete {
     itemSelected() {
         const currData = this.menuData[this.selectedIndex];
         this.close();
+        this.insertCacheData(currData);
         return currData;
     }
 
@@ -92,6 +104,9 @@ class EventHandler {
         } else if (key === 40) {
             this.autoComplete.downKeyPressed();
         } else if (key === 13) {
+            if (this.autoComplete.selectedIndex === -1) {
+                return;
+            }
             this.inputText.value = this.autoComplete.itemSelected();
         }
     }
@@ -136,7 +151,7 @@ class EventHandler {
 document.addEventListener('DOMContentLoaded', function () {
     // window.localStorage.clear()
     const storage = new Cache();
-    const autoComplete = new AutoComplete($('.result_list'));
+    const autoComplete = new AutoComplete($('.result_list'), storage);
 
     const eventHandler = new EventHandler(new Networking(storage),
         autoComplete,
