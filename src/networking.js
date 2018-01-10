@@ -66,11 +66,9 @@ class Networking {
     }
 
     sendAPIRequest(query) {
-        console.log(Object.keys(this.cache).length)
         let promise;
 
         if(this.isCacheInvalid(query)) {
-            console.log("miss!!");
             promise = new Promise((resolve) => {
                 var xhr = new XMLHttpRequest();
                 xhr.addEventListener("load", (e) => {
@@ -82,7 +80,6 @@ class Networking {
                 xhr.send();
             });
         } else {
-            console.log("hit!!!");
             promise = new Promise((resolve) => {
                 resolve(this.cache[query]["data"]);
             });

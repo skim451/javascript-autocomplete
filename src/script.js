@@ -39,11 +39,16 @@ class AutoComplete {
         this.selectedIndex = -1;
     }
 
-    itemSelected() {
-        const currData = this.menuData[this.selectedIndex];
-        this.close();
+    onSearchEvent(fieldValue) {
+        let currData;
+        if(this.selectedIndex === -1) {
+            currData = fieldValue; 
+        } else {
+            currData = this.menuData[this.selectedIndex]; 
+        }
         this.insertCacheData(currData);
-        return currData;
+
+        window.location.replace("?params=" + currData);
     }
 
     upKeyPressed() {
@@ -73,20 +78,32 @@ class AutoComplete {
 }
 
 class EventHandler {
-    constructor(networking, autoComplete, inputBox, searchButton) {
+    constructor(networking, autoComplete, searchBar, inputBox, searchButton) {
         this.networking = networking;
         this.autoComplete = autoComplete
         this.inputText = inputBox;
         this.searchButton = searchButton;
+        this.searchBar = searchBar; 
     }
 
     init() {
-        this.inputText.addEventListener('keydown', (e) => this.onKeyDown(e));
-        this.inputText.addEventListener('keyup', (e) => this.onKeyUp(e));
-        this.inputText.addEventListener('focusout', (e) => this.onFocusout(e), true);
-        this.searchButton.addEventListener('click', () => this.onSearchButtonClick());
-        this.autoComplete.listDOM.addEventListener('mouseover', (e) => this.onMouseHover(e));
-        this.autoComplete.listDOM.addEventListener('mousedown', (e) => this.onMouseClick(e));
+        this.inputText.addEventListener('keydown', (e) => 
+            this.onKeyDown(e));
+        this.inputText.addEventListener('keyup', (e) => 
+            this.onKeyUp(e));
+        this.inputText.addEventListener('focusout', (e) => 
+            this.onFocusout(e), true);
+        this.searchBar.addEventListener('submit', (e) => {
+            e.preventDefault();
+            window.history.back();
+            this.autoComplete.onSearchEvent(this.inputText.value); 
+        });
+        this.searchButton.addEventListener('click', () => 
+            this.onSearchButtonClick());
+        this.autoComplete.listDOM.addEventListener('mouseover', (e) => 
+            this.onMouseHover(e));
+        this.autoComplete.listDOM.addEventListener('mousedown', (e) => 
+            this.onMouseClick(e));
     }
 
     onFocusout(event) {
@@ -103,12 +120,10 @@ class EventHandler {
             this.autoComplete.upKeyPressed();
         } else if (key === 40) {
             this.autoComplete.downKeyPressed();
-        } else if (key === 13) {
-            if (this.autoComplete.selectedIndex === -1) {
-                return;
-            }
-            this.inputText.value = this.autoComplete.itemSelected();
         }
+        // } else if (key === 13) {
+        //     this.autoComplete.onSearchEvent(this.inputText.value);
+        // }
     }
 
     onKeyUp(event) {
@@ -131,7 +146,6 @@ class EventHandler {
     }
 
     onSearchButtonClick() {
-
         this.autoComplete.close();
     }
 
@@ -144,7 +158,7 @@ class EventHandler {
     }
 
     onMouseClick(event) {
-        this.inputText.value = this.autoComplete.itemSelected();
+        this.autoComplete.onSearchEvent(this.inputText.value);
     }
 }
 
@@ -155,6 +169,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const eventHandler = new EventHandler(new Networking(storage),
         autoComplete,
+        $('#search_bar'), 
         $('#input_box'),
         $('#search_button'));
     eventHandler.init()
