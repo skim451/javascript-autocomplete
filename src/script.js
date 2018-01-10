@@ -48,7 +48,7 @@ class AutoComplete {
         }
         this.insertCacheData(currData);
 
-        window.location.replace("?params=" + currData);
+        window.location.replace("?name=" + currData);
     }
 
     upKeyPressed() {
@@ -87,6 +87,7 @@ class EventHandler {
     }
 
     init() {
+        this.setInputParam();
         this.inputText.addEventListener('keydown', (e) => 
             this.onKeyDown(e));
         this.inputText.addEventListener('keyup', (e) => 
@@ -104,6 +105,13 @@ class EventHandler {
             this.onMouseHover(e));
         this.autoComplete.listDOM.addEventListener('mousedown', (e) => 
             this.onMouseClick(e));
+    }
+
+    setInputParam() {
+        const url = new URL(window.location);
+        const name = new URLSearchParams(url.search)
+        const searchKeyword = name.get("name");
+        this.inputText.value = searchKeyword;
     }
 
     onFocusout(event) {
@@ -163,7 +171,6 @@ class EventHandler {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    // window.localStorage.clear()
     const storage = new Cache();
     const autoComplete = new AutoComplete($('.result_list'), storage);
 
