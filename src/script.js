@@ -162,7 +162,7 @@ class EventHandler {
     }
 
     onSearchButtonClick() {
-        this.autoComplete.close();
+        this.autoComplete.onSearchEvent(this.inputText.value);
     }
 
     onMouseHover(event) {
