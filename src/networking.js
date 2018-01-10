@@ -1,18 +1,21 @@
 class Cache {
-    constructor()  {
+    constructor() {
+        this.networkLog = []; 
         this.networkCache = {};
         this.recentCache = [];
         this.init();
     }
+
     init() {
         this.loadStorage();
         window.addEventListener("beforeunload", () => this.saveCache());
     }
+
     loadStorage() {
-        // const log = localStorage.getItem("log");
-        // if(log) {
-        //     this.log = JSON.parse(log);
-        // }
+        const networkLog = localStorage.getItem("networkLog");
+        if(networkLog) {
+            this.networkLog = JSON.parse(networkLog);
+        }
         const networkCache = window.localStorage.getItem("networkCache");
         if(networkCache) {
             this.networkCache = JSON.parse(networkCache);
@@ -25,25 +28,30 @@ class Cache {
     }
 
     saveCache() {
-        //localStorage.setItem("log", JSON.stringify(this.log));
+        window.localStorage.setItem("networkLog", JSON.stringify(this.networkLog));
         window.localStorage.setItem("networkCache", JSON.stringify(this.networkCache));
         window.localStorage.setItem("recentCache", JSON.stringify(this.recentCache));
-
     }
 }
 
 class Networking {
     constructor(storage) {
-        //this.log = []
+        this.cacheSize = 100; 
+        this.log = storage.networkLog; 
         this.cache = storage.networkCache;
     }
 
     insertCacheData(query, data) {
+        while(Object.keys(this.cache).length >= this.cacheSize) {
+            delete this.cache[this.log.shift()]; 
+        }
+
         const time = Date.now();
         const value = { "data" : data,
                         "time" : time };
 
         this.cache[query] = value;
+        this.log.push(query)
     }
 
     isCacheInvalid(query) {
@@ -51,7 +59,6 @@ class Networking {
 
         const timeNow = Date.now();
         const timeCache = this.cache[query]["time"];
-
         //6시간 이상 차이났을때를 위한 부분이다.(친철한 톤)
         const timeDiff = (timeNow - timeCache)/1000/60/60/6;
 
@@ -59,6 +66,7 @@ class Networking {
     }
 
     sendAPIRequest(query) {
+        console.log(Object.keys(this.cache).length)
         let promise;
 
         if(this.isCacheInvalid(query)) {
