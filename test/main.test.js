@@ -1,3 +1,5 @@
+import {EventHandler, AutoComplete, Networking, Cache} from '../src/script'
+
 const assert = chai.assert;
 
 describe('Networking Test', function(){
@@ -70,14 +72,16 @@ describe('EventHandler', function(){
 		enterPressed: function() {
 			this.result = "enter";
 			return "enter";
-		}, 
+		},
 		close: function() {
-			this.result = "close"; 
-		}, 
+			this.result = "close";
+		},
 		show: function(input) {
-			this.result = input; 
+			this.result = input;
 		}
 	};
+
+	var mockSearchBar = document.createElement("form");
 
 	var mockInput = {
 		value: "test"
@@ -85,11 +89,11 @@ describe('EventHandler', function(){
 
 	var mockNetwork = {
 		sendAPIRequest: function(query, callback) {
-			callback(query); 
+			callback(query);
 		}
 	}
 
-	var eventHandler = new EventHandler(mockNetwork, mockAuto, mockInput, "");
+	var eventHandler = new EventHandler(mockNetwork, mockAuto, mockSearchBar, mockInput, "");
 
 	it('onKeyDown upkey Event Test', function() {
 		var event = new Event("keydown");
@@ -120,48 +124,48 @@ describe('EventHandler', function(){
 	});
 
 	it('onKeyUp igonore cases Event Test', function() {
-		var event = new Event("keyup"); 
-		event.keyCode = 38; 
+		var event = new Event("keyup");
+		event.keyCode = 38;
 
-		var temp = mockAuto.menuData; 
-		eventHandler.onKeyUp(event); 
-		assert.deepEqual(mockAuto.menuData, temp); 
+		var temp = mockAuto.menuData;
+		eventHandler.onKeyUp(event);
+		assert.deepEqual(mockAuto.menuData, temp);
 
-		event.keyCode = 40; 
-		eventHandler.onKeyUp(event); 
-		assert.deepEqual(mockAuto.menuData, temp); 
+		event.keyCode = 40;
+		eventHandler.onKeyUp(event);
+		assert.deepEqual(mockAuto.menuData, temp);
 
 		event.keyCode = 13;
-		eventHandler.onKeyUp(event); 
-		assert.deepEqual(mockAuto.menuData, temp); 
+		eventHandler.onKeyUp(event);
+		assert.deepEqual(mockAuto.menuData, temp);
 	});
 
 	it('onKeyUp sendAPIRequest data available Event Test', function() {
-		var event = new Event("keyup"); 
+		var event = new Event("keyup");
 		event.keyCode = 65;  // 'a'
 
-		eventHandler.inputText.value = 'test'; 
-		eventHandler.onKeyUp(event); 
+		eventHandler.inputText.value = 'test';
+		eventHandler.onKeyUp(event);
 
-		assert.equal(eventHandler.autoComplete.menuData, 'test'); 
-		assert.equal(eventHandler.autoComplete.result, 'test'); 
+		assert.equal(eventHandler.autoComplete.menuData, 'test');
+		assert.equal(eventHandler.autoComplete.result, 'test');
 	});
 
 	it('onKeyUp sendAPIRequest data not available Event Test', function() {
-		var event = new Event("keyup"); 
+		var event = new Event("keyup");
 		event.keyCode = 65;  // 'a'
 
-		eventHandler.inputText.value = ''; 
-		eventHandler.onKeyUp(event); 
+		eventHandler.inputText.value = '';
+		eventHandler.onKeyUp(event);
 
-		assert.equal(eventHandler.autoComplete.result, 'close'); 
+		assert.equal(eventHandler.autoComplete.result, 'close');
 	});
 
 	it('searchButton Event Test', function() {
-		var event = new Event("keyup"); 
+		var event = new Event("keyup");
 
-		eventHandler.onSearchButtonClick(event); 
-		assert.equal(eventHandler.autoComplete.result, 'close'); 
+		eventHandler.onSearchButtonClick(event);
+		assert.equal(eventHandler.autoComplete.result, 'close');
 	});
 });
 

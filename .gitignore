@@ -221,3 +221,4 @@ GitHub.sublime-settings
 # End of https://www.gitignore.io/api/sublimetext,webstorm+all,intellij+all
 
 /dist
+/test/bundle-test.js

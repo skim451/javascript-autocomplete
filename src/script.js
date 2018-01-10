@@ -42,9 +42,9 @@ class AutoComplete {
     onSearchEvent(fieldValue) {
         let currData;
         if(this.selectedIndex === -1) {
-            currData = fieldValue; 
+            currData = fieldValue;
         } else {
-            currData = this.menuData[this.selectedIndex]; 
+            currData = this.menuData[this.selectedIndex];
         }
         this.insertCacheData(currData);
 
@@ -83,29 +83,29 @@ class EventHandler {
         this.autoComplete = autoComplete
         this.inputText = inputBox;
         this.searchButton = searchButton;
-        this.searchBar = searchBar; 
+        this.searchBar = searchBar;
     }
 
     init() {
         this.setInputParam();
         this.inputText.addEventListener('focusin', (e) =>
             this.onFocusin(e));
-        this.inputText.addEventListener('keydown', (e) => 
+        this.inputText.addEventListener('keydown', (e) =>
             this.onKeyDown(e));
-        this.inputText.addEventListener('keyup', (e) => 
+        this.inputText.addEventListener('keyup', (e) =>
             this.onKeyUp(e));
-        this.inputText.addEventListener('focusout', (e) => 
+        this.inputText.addEventListener('focusout', (e) =>
             this.onFocusout(e), true);
         this.searchBar.addEventListener('submit', (e) => {
             e.preventDefault();
             window.history.back();
-            this.autoComplete.onSearchEvent(this.inputText.value); 
+            this.autoComplete.onSearchEvent(this.inputText.value);
         });
-        this.searchButton.addEventListener('click', () => 
+        this.searchButton.addEventListener('click', () =>
             this.onSearchButtonClick());
-        this.autoComplete.listDOM.addEventListener('mouseover', (e) => 
+        this.autoComplete.listDOM.addEventListener('mouseover', (e) =>
             this.onMouseHover(e));
-        this.autoComplete.listDOM.addEventListener('mousedown', (e) => 
+        this.autoComplete.listDOM.addEventListener('mousedown', (e) =>
             this.onMouseClick(e));
     }
 
@@ -184,9 +184,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const eventHandler = new EventHandler(new Networking(storage),
         autoComplete,
-        $('#search_bar'), 
+        $('#search_bar'),
         $('#input_box'),
         $('#search_button'));
     eventHandler.init()
 
 });
+
+export {EventHandler, AutoComplete, Networking, Cache}
