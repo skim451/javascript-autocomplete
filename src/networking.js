@@ -1,7 +1,7 @@
 class Networking {
     constructor() { 
         //this.log = []
-        this.cache = {} 
+        this.cache = {}
 
         this.init(); 
     }
@@ -28,18 +28,30 @@ class Networking {
     }
 
     insertCacheData(query, data) {
-        const time = Date.now(); 
-        const value = { "data" : data, 
+        const time = Date.now();
+        const value = { "data" : data,
                         "time" : time };
 
         this.cache[query] = value;
     }
 
-    sendAPIRequest(query) {
-        let promise; 
+    isCacheInvalid(query) {
+        if(!this.cache[query]) return true;
 
-        if(!this.cache[query]) {
-            console.log("miss!!")
+        const timeNow = Date.now();
+        const timeCache = this.cache[query]["time"];
+
+        //6시간 이상 차이났을때를 위한 부분이다.(친철한 톤)
+        const timeDiff = (timeNow - timeCache)/1000/60/60/6;
+
+        return timeDiff >= 1
+    }
+
+    sendAPIRequest(query) {
+        let promise;
+
+        if(this.isCacheInvalid(query)) {
+            console.log("miss!!");
             promise = new Promise((resolve) => {
                 var xhr = new XMLHttpRequest();
                 xhr.addEventListener("load", (e) => {
@@ -51,7 +63,7 @@ class Networking {
                 xhr.send();
             }); 
         } else {
-            console.log("hit!!!")
+            console.log("hit!!!");
             promise = new Promise((resolve) => {
                 resolve(this.cache[query]["data"]);
             }); 
