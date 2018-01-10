@@ -137,9 +137,6 @@ class EventHandler {
         } else if (key === 40) {
             this.autoComplete.downKeyPressed();
         }
-        // } else if (key === 13) {
-        //     this.autoComplete.onSearchEvent(this.inputText.value);
-        // }
     }
 
     onKeyUp(event) {

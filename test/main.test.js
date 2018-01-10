@@ -62,7 +62,9 @@ describe('Networking Test', function(){
 
 describe('EventHandler', function(){
     var mockAuto = {
+    	menuData: "", 
 		result: "",
+		cache: "",
 		upKeyPressed: function() {
 			this.result = "upkey";
 		},
@@ -78,6 +80,7 @@ describe('EventHandler', function(){
 		},
 		show: function(input) {
 			this.result = input;
+			this.menuData = input; 
 		}
 	};
 
@@ -88,12 +91,18 @@ describe('EventHandler', function(){
 	}
 
 	var mockNetwork = {
-		sendAPIRequest: function(query, callback) {
-			callback(query);
+		sendAPIRequest: function(query) {
+			return new Promise((resolve) => {
+                resolve(query);
+            });
 		}
 	}
 
-	var eventHandler = new EventHandler(mockNetwork, mockAuto, mockSearchBar, mockInput, "");
+	var eventHandler = new EventHandler(mockNetwork,
+									 mockAuto,
+									  mockSearchBar, 
+									  mockInput, 
+									  "");
 
 	it('onKeyDown upkey Event Test', function() {
 		var event = new Event("keydown");
@@ -111,16 +120,6 @@ describe('EventHandler', function(){
 		eventHandler.onKeyDown(event);
 
 		assert.equal(mockAuto.result, "downkey");
-	});
-
-	it('onKeyDown enter Event Test', function() {
-		var event = new Event("keydown");
-		event.keyCode = 13;
-
-		eventHandler.onKeyDown(event);
-
-		assert.equal(mockAuto.result, "enter");
-		assert.equal(mockInput.value, "enter");
 	});
 
 	it('onKeyUp igonore cases Event Test', function() {
