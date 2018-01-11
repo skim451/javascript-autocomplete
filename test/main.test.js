@@ -2,8 +2,8 @@ import {EventHandler, AutoComplete, Networking, Cache, Util} from '../src/script
 
 const assert = chai.assert;
 
-Util.redirect = (param) => {
-	console.log("this is fake" + param);
+Util.redirect = function(param) {
+	this.result = param;
 }
 
 describe('Networking Test', function(){
@@ -188,8 +188,8 @@ describe('auto', function(){
 	let mockCache = {
 		localData : {
 			"recentCache" : []
-		}	
-	}	
+		}
+	}
 
     let auto = new AutoComplete(resultListDom, mockCache);
     auto.menuData.push("오징어볶음"
@@ -222,7 +222,7 @@ describe('auto', function(){
 
 		auto.onSearchEvent();
 
-		//assert.equal(auto.menuData[3], retval);
+		assert.equal("?name=" + auto.menuData[3], Util.result);
 	});
 
 	it('upkey pressed test', function() {
