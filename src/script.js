@@ -1,11 +1,13 @@
 import {Networking, Cache} from './networking.js'
 
-function $(query) {
-    return document.querySelector(query);
-}
+class Util {
+    static $(query) {
+        return document.querySelector(query);
+    }
 
-function redirect(param) {
-    window.location.replace(param);
+    static redirect(param) {
+        window.location.replace(param);
+    }
 }
 
 class AutoComplete {
@@ -52,7 +54,7 @@ class AutoComplete {
         }
         this.insertCacheData(currData);
 
-        redirect("?name=" + currData);
+        Util.redirect("?name=" + currData);
     }
 
     upKeyPressed() {
@@ -182,14 +184,14 @@ class EventHandler {
 
 document.addEventListener('DOMContentLoaded', function () {
     const storage = new Cache();
-    const autoComplete = new AutoComplete($('.result_list'), storage);
+    const autoComplete = new AutoComplete(Util.$('.result_list'), storage);
 
     const eventHandler = new EventHandler(new Networking(storage, 100),
         autoComplete,
-        $('#search_bar'),
-        $('#input_box'),
-        $('#search_button'));
+        Util.$('#search_bar'),
+        Util.$('#input_box'),
+        Util.$('#search_button'));
     eventHandler.init()
 });
 
-export {EventHandler, AutoComplete, Networking, Cache}
+export {EventHandler, AutoComplete, Networking, Cache, Util}

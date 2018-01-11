@@ -1,4 +1,4 @@
-import {EventHandler, AutoComplete, Networking, Cache} from '../src/script.js'
+import {EventHandler, AutoComplete, Networking, Cache, Util} from '../src/script.js'
 
 const assert = chai.assert;
 
@@ -105,7 +105,7 @@ describe('EventHandler', function(){
 									  mockInput,
 									  "");
 
-	it('onKeyDown upkey Event Test', function() {
+	it ('onKeyDown upkey Event Test', () => {
 		let event = new Event("keydown");
 		event.keyCode = 38;
 
@@ -114,7 +114,7 @@ describe('EventHandler', function(){
 		assert.equal(mockAuto.result, "upkey");
 	});
 
-	it('onKeyDown downkey Event Test', function() {
+	it('onKeyDown downkey Event Test', () => {
 		let event = new Event("keydown");
 		event.keyCode = 40;
 
@@ -187,8 +187,10 @@ describe('auto', function(){
 		}	
 	}
 
-	let redirect = function(param) {
-		console.log("this is fake" + param);	
+	this.Util = {
+		redirect: function(param) {
+			console.log("this is fake" + param);	
+		}
 	}
 
     let auto = new AutoComplete(resultListDom, mockCache);
