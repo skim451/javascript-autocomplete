@@ -61,13 +61,9 @@ describe('Networking Test', function(){
 
 describe('EventHandler', function(){
     var mockAuto = {
-    	menuData: "", 
+    	menuData: "",
 		result: "",
-<<<<<<< HEAD
 		menuData: "",
-=======
-		cache: "",
->>>>>>> 3b6238bef450bda79b726c22824b0edecffc8042
 		upKeyPressed: function() {
 			this.result = "upkey";
 		},
@@ -83,13 +79,9 @@ describe('EventHandler', function(){
 		},
 		show: function(input) {
 			this.result = input;
-<<<<<<< HEAD
 		},
 		onSearchEvent: function() {
 			this.result = "on search";
-=======
-			this.menuData = input; 
->>>>>>> 3b6238bef450bda79b726c22824b0edecffc8042
 		}
 	};
 
@@ -102,20 +94,15 @@ describe('EventHandler', function(){
 	var mockNetwork = {
 		sendAPIRequest: function(query) {
 			return new Promise((resolve) => {
-<<<<<<< HEAD
 				resolve(query);
 			});
-=======
-                resolve(query);
-            });
->>>>>>> 3b6238bef450bda79b726c22824b0edecffc8042
 		}
 	}
 
 	var eventHandler = new EventHandler(mockNetwork,
 									 mockAuto,
-									  mockSearchBar, 
-									  mockInput, 
+									  mockSearchBar,
+									  mockInput,
 									  "");
 
 	it('onKeyDown upkey Event Test', function() {
