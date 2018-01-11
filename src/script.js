@@ -54,6 +54,7 @@ class AutoComplete {
         }
         this.insertCacheData(currData);
 
+        console.log(Util.redirect)
         Util.redirect("?name=" + currData);
     }
 
