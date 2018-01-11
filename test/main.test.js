@@ -1,10 +1,10 @@
-import {EventHandler, AutoComplete, Networking, Cache} from '../src/script'
+import {EventHandler, AutoComplete, Networking, Cache} from '../src/script.js'
 
 const assert = chai.assert;
 
 describe('Networking Test', function(){
-	var storage = new Cache()
-	var networking = new Networking(storage)
+	let storage = new Cache()
+	let networking = new Networking(storage)
 	it('오징, shoul equal', function(done) {
 		const ohJingExpected = ["오징어볶음"
 			,"마른오징어"
@@ -49,7 +49,7 @@ describe('Networking Test', function(){
 			,"오징어"];
 
 
-		var func = function(data) {
+		let func = function(data) {
 			assert.notDeepEqual(data, ohJingExpected);
 			done();
 		};
@@ -60,7 +60,7 @@ describe('Networking Test', function(){
 });
 
 describe('EventHandler', function(){
-    var mockAuto = {
+    let mockAuto = {
     	menuData: "",
 		result: "",
 		menuData: "",
@@ -85,13 +85,13 @@ describe('EventHandler', function(){
 		}
 	};
 
-	var mockSearchBar = document.createElement("form");
+	let mockSearchBar = document.createElement("form");
 
-	var mockInput = {
+	let mockInput = {
 		value: "test"
 	}
 
-	var mockNetwork = {
+	let mockNetwork = {
 		sendAPIRequest: function(query) {
 			return new Promise((resolve) => {
 				resolve(query);
@@ -99,14 +99,14 @@ describe('EventHandler', function(){
 		}
 	}
 
-	var eventHandler = new EventHandler(mockNetwork,
+	let eventHandler = new EventHandler(mockNetwork,
 									 mockAuto,
 									  mockSearchBar,
 									  mockInput,
 									  "");
 
 	it('onKeyDown upkey Event Test', function() {
-		var event = new Event("keydown");
+		let event = new Event("keydown");
 		event.keyCode = 38;
 
 		eventHandler.onKeyDown(event);
@@ -115,7 +115,7 @@ describe('EventHandler', function(){
 	});
 
 	it('onKeyDown downkey Event Test', function() {
-		var event = new Event("keydown");
+		let event = new Event("keydown");
 		event.keyCode = 40;
 
 		eventHandler.onKeyDown(event);
@@ -124,10 +124,10 @@ describe('EventHandler', function(){
 	});
 
 	it('onKeyUp igonore cases Event Test', function() {
-		var event = new Event("keyup");
+		let event = new Event("keyup");
 		event.keyCode = 38;
 
-		var temp = mockAuto.menuData;
+		let temp = mockAuto.menuData;
 		eventHandler.onKeyUp(event);
 		assert.deepEqual(mockAuto.menuData, temp);
 
@@ -141,7 +141,7 @@ describe('EventHandler', function(){
 	});
 
 	it('onKeyUp sendAPIRequest data available Event Test', function(done) {
-		var event = new Event("keyup");
+		let event = new Event("keyup");
 		event.keyCode = 65;  // 'a'
 
 		eventHandler.inputText.value = 'test';
@@ -154,7 +154,7 @@ describe('EventHandler', function(){
 	});
 
 	it('onKeyUp sendAPIRequest data not available Event Test', function(done) {
-		var event = new Event("keyup");
+		let event = new Event("keyup");
 		event.keyCode = 65;  // 'a'
 
 		eventHandler.inputText.value = '';
@@ -168,7 +168,7 @@ describe('EventHandler', function(){
 	});
 
 	it('searchButton Event Test', function() {
-		var event = new Event("keyup");
+		let event = new Event("keyup");
 
 		eventHandler.onSearchButtonClick(event);
 		assert.equal(eventHandler.autoComplete.result, 'on search');
@@ -176,14 +176,22 @@ describe('EventHandler', function(){
 });
 
 describe('auto', function(){
-    var resultListDom = document.createElement("div");
+    let resultListDom = document.createElement("div");
     resultListDom.classList.add('result_list');
+   	let ul = document.createElement("ul");
+   	resultListDom.appendChild(ul);
 
-	var mockCache = {
-
+	let mockCache = {
+		localData : {
+			"recentCache" : []
+		}	
 	}
 
-    var auto = new AutoComplete(resultListDom, mockCache);
+	let redirect = function(param) {
+		console.log("this is fake" + param);	
+	}
+
+    let auto = new AutoComplete(resultListDom, mockCache);
     auto.menuData.push("오징어볶음"
         ,"젖은오징어"
         ,"오징어무국"
@@ -196,7 +204,7 @@ describe('auto', function(){
 
     it('show test', function(){
         auto.show('오징');
-        var childList = resultListDom.childNodes[0].childNodes;
+        let childList = resultListDom.childNodes[0].childNodes;
         assert.equal(resultListDom.style.display, "block");
         assert.equal(childList.length, auto.menuData.length);
         assert.include(childList[0].innerHTML, "<span>오징</span>");
@@ -211,15 +219,15 @@ describe('auto', function(){
 
 	it('enter pressed test', function() {
 		auto.selectedIndex = 3;
-		var retval = auto.enterPressed();
+		auto.onSearchEvent();
 
-		assert.equal(auto.menuData[3], retval);
+		//assert.equal(auto.menuData[3], retval);
 	});
 
 	it('upkey pressed test', function() {
 		auto.show();
 		auto.selectedIndex = 3;
-		var childList = resultListDom.childNodes[0].children;
+		let childList = resultListDom.childNodes[0].children;
 		childList[3].classList.add('selected');
 		auto.upKeyPressed();
 
@@ -231,7 +239,7 @@ describe('auto', function(){
 	it('downkey pressed test', function() {
 		auto.show();
 		auto.selectedIndex = 4;
-		var childList = resultListDom.childNodes[0].children;
+		let childList = resultListDom.childNodes[0].children;
 		childList[4].classList.add('selected');
 		auto.downKeyPressed();
 

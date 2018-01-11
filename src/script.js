@@ -4,13 +4,17 @@ function $(query) {
     return document.querySelector(query);
 }
 
+function redirect(param) {
+    window.location.replace(param);
+}
+
 class AutoComplete {
     constructor(resultList, storage) {
         this.menuData = [];
         this.resultListDOM = resultList;
         this.selectedIndex = -1;
         this.listDOM = this.resultListDOM.children[0];
-        this.cache = storage.recentCache;
+        this.cache = storage.localData["recentCache"];
     }
 
     insertCacheData(query) {
@@ -48,7 +52,7 @@ class AutoComplete {
         }
         this.insertCacheData(currData);
 
-        window.location.replace("?name=" + currData);
+        redirect("?name=" + currData);
     }
 
     upKeyPressed() {
@@ -71,7 +75,7 @@ class AutoComplete {
     }
 
     mouseHovered(item) {
-        let index = Array.prototype.indexOf.call(this.listDOM.children, item);
+        let index = Array.from(this.listDOM.children).indexOf(item); 
 
         this.changeSelected(index);
     }
@@ -84,6 +88,7 @@ class EventHandler {
         this.inputText = inputBox;
         this.searchButton = searchButton;
         this.searchBar = searchBar;
+
     }
 
     init() {
@@ -179,13 +184,12 @@ document.addEventListener('DOMContentLoaded', function () {
     const storage = new Cache();
     const autoComplete = new AutoComplete($('.result_list'), storage);
 
-    const eventHandler = new EventHandler(new Networking(storage),
+    const eventHandler = new EventHandler(new Networking(storage, 100),
         autoComplete,
         $('#search_bar'),
         $('#input_box'),
         $('#search_button'));
     eventHandler.init()
-
 });
 
 export {EventHandler, AutoComplete, Networking, Cache}
