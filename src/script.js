@@ -8,6 +8,10 @@ class Util {
     static redirect(param) {
         window.location.replace(param);
     }
+
+    static removeSpace(string) {
+        return string.replace(/ /gi, "");
+    }
 }
 
 class AutoComplete {
@@ -20,6 +24,8 @@ class AutoComplete {
     }
 
     insertCacheData(query) {
+        if (!query) return; 
+
         if (this.cache.includes(query)) {
             this.cache.splice(this.cache.indexOf(query), 1);
         }
@@ -52,6 +58,10 @@ class AutoComplete {
         } else {
             currData = this.menuData[this.selectedIndex];
         }
+
+        if(!fieldValue)
+            return;
+
         this.insertCacheData(currData);
 
         console.log(Util.redirect)
@@ -68,13 +78,25 @@ class AutoComplete {
 
     changeSelected(index) {
         let list = this.listDOM.children;
-        if (this.selectedIndex !== -1) {
-            list[this.selectedIndex].classList.remove('selected')
+
+        if (index >= list.length) 
+            index = list.length - 1;
+
+        if (index < 0) {          
+            index = -1; 
         }
-        if (index >= 0 && index < list.length) {
+        
+        if (this.selectedIndex >  -1 && this.selectedIndex < list.length) {
+            list[this.selectedIndex].classList.remove('selected')
+            this.selectedIndex = index;
+        } 
+
+        if (index >= 0 && index < list.length) {    
             this.selectedIndex = index;
             list[this.selectedIndex].classList.add('selected')
-        }
+        } 
+
+
     }
 
     mouseHovered(item) {
@@ -106,8 +128,7 @@ class EventHandler {
             this.onFocusout(e), true);
         this.searchBar.addEventListener('submit', (e) => {
             e.preventDefault();
-            window.history.back();
-            this.autoComplete.onSearchEvent(this.inputText.value);
+            this.autoComplete.onSearchEvent(Util.removeSpace(this.inputText.value));
         });
         this.searchButton.addEventListener('click', () =>
             this.onSearchButtonClick());
@@ -153,7 +174,7 @@ class EventHandler {
             return;
         }
 
-        let afterDataRevc = (data) => {
+        let afterDataRecv = (data) => {
             if (data) {
                 this.autoComplete.menuData = data;
                 this.autoComplete.show(this.inputText.value);
@@ -162,12 +183,12 @@ class EventHandler {
             }
         }
 
-        this.networking.sendAPIRequest(this.inputText.value)
-                        .then(afterDataRevc);
+        this.networking.sendAPIRequest(Util.removeSpace(this.inputText.value))
+                        .then(afterDataRecv);
     }
 
     onSearchButtonClick() {
-        this.autoComplete.onSearchEvent(this.inputText.value);
+        this.autoComplete.onSearchEvent(Util.removeSpace(this.inputText.value));
     }
 
     onMouseHover(event) {
@@ -179,7 +200,7 @@ class EventHandler {
     }
 
     onMouseClick(event) {
-        this.autoComplete.onSearchEvent(this.inputText.value);
+        this.autoComplete.onSearchEvent(Util.removeSpace(this.inputText.value));
     }
 }
 
