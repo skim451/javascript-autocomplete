@@ -176,6 +176,7 @@ main nav ul li {
 }
 
 .menu_view {
+    overflow: hidden;
     display: inline-block;
     height: 350px;
     width: 980px;
@@ -188,7 +189,7 @@ main nav ul li {
 .menu_view .menu_slider {
     margin: 0;
     padding: 0;
-    width: 2000px;
+    width: max-content;
     text-align: center;
 }
 
@@ -196,8 +197,17 @@ main nav ul li {
     display: inline-block;
     width: 215px;
     height: 350px;
-    margin: 0 15px;
+    margin: 0 13px;
     vertical-align: middle;
+}
+
+.page {
+    display: inline-block;
+}
+
+.menu_slider:hover {
+    transition: transform 0.5s ease-in-out;
+    transform: translate3d(-2940px, 0px, 0px);
 }
 
 .menu .food_image {
@@ -206,14 +216,20 @@ main nav ul li {
 }
 
 .menu h3 {
+    overflow: hidden;
     letter-spacing: -0.07em;
     margin-bottom: 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .menu p {
+    overflow: hidden;
     font-size: 13px;
     color: #666;
     letter-spacing: -0.07em;
     margin: 0 0 11px 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .n_price {
