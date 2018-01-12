@@ -55,10 +55,6 @@ class AutoComplete {
             currData = this.menuData[this.selectedIndex];
         }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> f177bf1cd8e2dffb286f2580fd5a94f25602f8cf
         this.insertCacheData(currData);
 
         Util.redirect("?name=" + currData);
