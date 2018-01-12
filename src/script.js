@@ -197,38 +197,57 @@ class EventHandler {
 
 class MenuSlider {
     constructor(menuSlider, leftButton, rightButton) {
-        this.position = 980 * 4; 
+        this.position = -980 * 3; 
         this.menuSlider = menuSlider; 
         this.leftButton = leftButton; 
         this.rightButton = rightButton; 
 
-        leftButton.addEventListener('click', (e) => this.onLeftButtonClick(e));
-        rightButton.addEventListener('click', (e) => this.onRightButtonClick(e));
+        menuSlider.addEventListener('transitionend', () => this.onTransitionEnd());
+        leftButton.addEventListener('click', () => this.onLeftButtonClick());
+        rightButton.addEventListener('click', () => this.onRightButtonClick());
 
         this.menuSlider.style["transition"] = 'transform 0s ease-in-out';
         this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
     }
 
-    onLeftButtonClick(event) {
-        if(this.position >= 980 * 7) {
-            this.postion -= 980 * 4;
-            this.menuSlider.style["transition"] = 'transform 0s ease-in-out';
+    onTransitionEnd() {
+        if(this.position > -980) {
+            this.position -= 980 * 3;
+            this.menuSlider.style["transition"] = 'transform 5ms ease-in-out';
             this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
         }
-        this.position += 980;
-        this.menuSlider.style["transition"] = 'transform 0.5s ease-in-out';
-        this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
+
+        if(this.position <= -980 * 5) {
+            this.position += 980 * 3;
+            this.menuSlider.style["transition"] = 'transform 5ms ease-in-out';
+            this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
+        }
+
+        this.leftButton.disabled = false;  
+        this.rightButton.disabled = false; 
     }
 
-    onRightButtonClick(event) {
-        if(this.position < 980) {
-            this.postion += 980 * 4;
-            this.menuSlider.style["transition"] = 'transform 0s ease-in-out';
-            this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
+    onLeftButtonClick() {
+        this.leftButton.disabled = true; 
+        if(this.position > -980) {
+            this.position -= 980 * 2;
+        } else {
+            this.position += 980;
         }
-        this.position -= 980;
         this.menuSlider.style["transition"] = 'transform 0.5s ease-in-out';
-        this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;  
+        this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;   
+
+    }
+
+    onRightButtonClick() {
+        this.rightButton.disabled = true; 
+        if(this.position <= -980 * 5) {
+            this.position += 980 * 2;    
+        } else {
+            this.position -= 980;
+        }
+        this.menuSlider.style["transition"] = 'transform 0.5s ease-in-out';
+        this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
     }
 }
 
