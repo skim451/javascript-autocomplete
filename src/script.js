@@ -24,7 +24,7 @@ class AutoComplete {
     }
 
     insertCacheData(query) {
-        if (!query) return; 
+        if (!query) return;
 
         if (this.cache.includes(query)) {
             this.cache.splice(this.cache.indexOf(query), 1);
@@ -59,8 +59,6 @@ class AutoComplete {
             currData = this.menuData[this.selectedIndex];
         }
 
-        if(!fieldValue)
-            return;
 
         this.insertCacheData(currData);
 
@@ -79,28 +77,28 @@ class AutoComplete {
     changeSelected(index) {
         let list = this.listDOM.children;
 
-        if (index >= list.length) 
+        if (index >= list.length)
             index = list.length - 1;
 
-        if (index < 0) {          
-            index = -1; 
+        if (index < 0) {
+            index = -1;
         }
-        
+
         if (this.selectedIndex >  -1 && this.selectedIndex < list.length) {
             list[this.selectedIndex].classList.remove('selected')
             this.selectedIndex = index;
-        } 
+        }
 
-        if (index >= 0 && index < list.length) {    
+        if (index >= 0 && index < list.length) {
             this.selectedIndex = index;
             list[this.selectedIndex].classList.add('selected')
-        } 
+        }
 
 
     }
 
     mouseHovered(item) {
-        let index = Array.from(this.listDOM.children).indexOf(item); 
+        let index = Array.from(this.listDOM.children).indexOf(item);
 
         this.changeSelected(index);
     }
