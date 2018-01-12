@@ -8,10 +8,6 @@ class Util {
     static redirect(param) {
         window.location.replace(param);
     }
-
-    static removeSpace(string) {
-        return string.replace(/ /gi, "");
-    }
 }
 
 class AutoComplete {
@@ -59,12 +55,8 @@ class AutoComplete {
             currData = this.menuData[this.selectedIndex];
         }
 
-        if(!fieldValue)
-            return;
-
         this.insertCacheData(currData);
 
-        console.log(Util.redirect)
         Util.redirect("?name=" + currData);
     }
 
@@ -118,17 +110,17 @@ class EventHandler {
 
     init() {
         this.setInputParam();
-        this.inputText.addEventListener('focusin', (e) =>
-            this.onFocusin(e));
         this.inputText.addEventListener('keydown', (e) =>
             this.onKeyDown(e));
         this.inputText.addEventListener('keyup', (e) =>
             this.onKeyUp(e));
         this.inputText.addEventListener('focusout', (e) =>
             this.onFocusout(e), true);
+        this.inputText.addEventListener('focusin', (e) =>
+            this.onFocusin(e));
         this.searchBar.addEventListener('submit', (e) => {
             e.preventDefault();
-            this.autoComplete.onSearchEvent(Util.removeSpace(this.inputText.value));
+            this.autoComplete.onSearchEvent(this.inputText.value.trim());
         });
         this.searchButton.addEventListener('click', () =>
             this.onSearchButtonClick());
@@ -146,7 +138,7 @@ class EventHandler {
     }
 
     onFocusin(event) {
-        if(event.target.value !== "") return;
+        if(event.target.value) return;
         this.autoComplete.menuData = this.autoComplete.cache;
         this.autoComplete.show();
     }
@@ -183,12 +175,12 @@ class EventHandler {
             }
         }
 
-        this.networking.sendAPIRequest(Util.removeSpace(this.inputText.value))
+        this.networking.sendAPIRequest(this.inputText.value.trim())
                         .then(afterDataRecv);
     }
 
     onSearchButtonClick() {
-        this.autoComplete.onSearchEvent(Util.removeSpace(this.inputText.value));
+        this.autoComplete.onSearchEvent(this.inputText.value.trim());
     }
 
     onMouseHover(event) {
@@ -200,7 +192,7 @@ class EventHandler {
     }
 
     onMouseClick(event) {
-        this.autoComplete.onSearchEvent(Util.removeSpace(this.inputText.value));
+        this.autoComplete.onSearchEvent(this.inputText.value.trim());
     }
 }
 
