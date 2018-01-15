@@ -199,7 +199,7 @@ class MenuSlider {
     constructor(menuSlider, leftButton, rightButton, panelSize, panelNumber) {
         this.panelSize = panelSize
         this.panelNumber = panelNumber;
-        this.position = -panelSize * panelNumber;
+        this.position = -panelSize;
         this.menuSlider = menuSlider;
         this.leftButton = leftButton;
         this.rightButton = rightButton;
@@ -218,8 +218,8 @@ class MenuSlider {
             this.menuSlider.style["transition"] = 'transform 5ms ease-in-out';
             this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
         }
-
-        if(this.position <= -this.panelSize * 5) {
+        // if last element
+        if(this.position <= -this.panelSize * (this.panelNumber + 1)) {
             this.position += this.panelSize * this.panelNumber;
             this.menuSlider.style["transition"] = 'transform 5ms ease-in-out';
             this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
@@ -231,11 +231,7 @@ class MenuSlider {
 
     onLeftButtonClick() {
         this.leftButton.disabled = true;
-        if(this.position > -this.panelSize) {
-            this.position -= this.panelSize * 2;
-        } else {
-            this.position += this.panelSize;
-        }
+        this.position += this.panelSize;
         this.menuSlider.style["transition"] = 'transform 0.5s ease-in-out';
         this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
 
@@ -243,11 +239,7 @@ class MenuSlider {
 
     onRightButtonClick() {
         this.rightButton.disabled = true;
-        if(this.position <= -this.panelSize * 5) {
-            this.position += this.panelSize * 2;
-        } else {
-            this.position -= this.panelSize;
-        }
+        this.position -= this.panelSize;
         this.menuSlider.style["transition"] = 'transform 0.5s ease-in-out';
         this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
     }
