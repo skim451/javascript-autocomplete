@@ -211,9 +211,22 @@ class MenuSlider {
 
         this.menuSlider.style["transition"] = 'transform 0s ease-in-out';
         this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
+
+        this.setAutoSlide(); 
+    }
+
+    setAutoSlide() {
+        this.autoInterval = setInterval(() => {
+            this.onRightButtonClick();
+        }, 2000);
+    }
+
+    stopAutoSlide() {
+        clearInterval(this.autoInterval); 
     }
 
     onTransitionEnd() {
+        this.stopAutoSlide(); 
         if(this.position > -this.panelSize) {
             this.position -= this.panelSize * this.panelNumber;
             this.menuSlider.style["transition"] = 'transform 5ms ease-in-out';
@@ -227,6 +240,8 @@ class MenuSlider {
         }
         this.lockButton(this.leftButton, false);
         this.lockButton(this.rightButton, false);
+
+        this.setAutoSlide();
     }
 
     onLeftButtonClick() {
@@ -234,7 +249,7 @@ class MenuSlider {
         this.position += this.panelSize;
         this.menuSlider.style["transition"] = `transform ${this.transitionTime}s ease-in-out`;
         this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
-
+        this.stopAutoSlide(); 
     }
 
     onRightButtonClick() {
@@ -242,6 +257,7 @@ class MenuSlider {
         this.position -= this.panelSize;
         this.menuSlider.style["transition"] = `transform ${this.transitionTime}s ease-in-out`;
         this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
+        this.stopAutoSlide();
     }
 
     lockButton(target, boolean) {
