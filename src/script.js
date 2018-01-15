@@ -249,7 +249,6 @@ class MenuSlider {
         this.position += this.panelSize;
         this.menuSlider.style["transition"] = `transform ${this.transitionTime}s ease-in-out`;
         this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
-        this.stopAutoSlide(); 
     }
 
     onRightButtonClick() {
@@ -257,7 +256,6 @@ class MenuSlider {
         this.position -= this.panelSize;
         this.menuSlider.style["transition"] = `transform ${this.transitionTime}s ease-in-out`;
         this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
-        this.stopAutoSlide();
     }
 
     lockButton(target, boolean) {
