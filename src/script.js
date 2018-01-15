@@ -196,13 +196,14 @@ class EventHandler {
 }
 
 class MenuSlider {
-    constructor(menuSlider, leftButton, rightButton, panelSize, panelNumber) {
+    constructor(menuSlider, leftButton, rightButton, panelSize, panelNumber, transitionTime) {
         this.panelSize = panelSize
         this.panelNumber = panelNumber;
         this.position = -panelSize;
         this.menuSlider = menuSlider;
         this.leftButton = leftButton;
         this.rightButton = rightButton;
+        this.transitionTime = transitionTime;
 
         menuSlider.addEventListener('transitionend', this.onTransitionEnd.bind(this));
         leftButton.addEventListener('click', this.onLeftButtonClick.bind(this));
@@ -232,7 +233,7 @@ class MenuSlider {
     onLeftButtonClick() {
         this.leftButton.disabled = true;
         this.position += this.panelSize;
-        this.menuSlider.style["transition"] = 'transform 0.5s ease-in-out';
+        this.menuSlider.style["transition"] = `transform ${this.transitionTime}s ease-in-out`;
         this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
 
     }
@@ -240,7 +241,7 @@ class MenuSlider {
     onRightButtonClick() {
         this.rightButton.disabled = true;
         this.position -= this.panelSize;
-        this.menuSlider.style["transition"] = 'transform 0.5s ease-in-out';
+        this.menuSlider.style["transition"] = `transform ${this.transitionTime}s ease-in-out`;
         this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
     }
 }
@@ -261,7 +262,8 @@ document.addEventListener('DOMContentLoaded', function () {
         Util.$('#left_arrow'),
         Util.$('#right_arrow'),
         parseInt(getComputedStyle(Util.$('.menu_view')).width),
-        3);
+        3,
+        0.5);
 });
 
 export {EventHandler, AutoComplete, Networking, Cache, Util}
