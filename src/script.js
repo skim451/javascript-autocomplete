@@ -273,4 +273,4 @@ document.addEventListener('DOMContentLoaded', function () {
         0.5);
 });
 
-export {EventHandler, AutoComplete, Networking, Cache, Util}
+export {EventHandler, AutoComplete, Networking, Cache, Util, MenuSlider}
