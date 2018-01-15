@@ -225,13 +225,12 @@ class MenuSlider {
             this.menuSlider.style["transition"] = 'transform 5ms ease-in-out';
             this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
         }
-
-        this.leftButton.disabled = false;
-        this.rightButton.disabled = false;
+        this.lockButton(this.leftButton, false);
+        this.lockButton(this.rightButton, false);
     }
 
     onLeftButtonClick() {
-        this.leftButton.disabled = true;
+        this.lockButton(this.leftButton, true);
         this.position += this.panelSize;
         this.menuSlider.style["transition"] = `transform ${this.transitionTime}s ease-in-out`;
         this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
@@ -239,10 +238,18 @@ class MenuSlider {
     }
 
     onRightButtonClick() {
-        this.rightButton.disabled = true;
+        this.lockButton(this.rightButton, true);
         this.position -= this.panelSize;
         this.menuSlider.style["transition"] = `transform ${this.transitionTime}s ease-in-out`;
         this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
+    }
+
+    lockButton(target, boolean) {
+        if(boolean) {
+            target.disabled = true;
+        } else {
+            target.disabled = false;
+        }
     }
 }
 
