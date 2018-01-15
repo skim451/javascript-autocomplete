@@ -196,55 +196,57 @@ class EventHandler {
 }
 
 class MenuSlider {
-    constructor(menuSlider, leftButton, rightButton) {
-        this.position = -980 * 3; 
-        this.menuSlider = menuSlider; 
-        this.leftButton = leftButton; 
-        this.rightButton = rightButton; 
+    constructor(menuSlider, leftButton, rightButton, panelSize, panelNumber) {
+        this.panelSize = panelSize
+        this.panelNumber = panelNumber;
+        this.position = -panelSize * panelNumber;
+        this.menuSlider = menuSlider;
+        this.leftButton = leftButton;
+        this.rightButton = rightButton;
 
-        menuSlider.addEventListener('transitionend', () => this.onTransitionEnd());
-        leftButton.addEventListener('click', () => this.onLeftButtonClick());
-        rightButton.addEventListener('click', () => this.onRightButtonClick());
+        menuSlider.addEventListener('transitionend', this.onTransitionEnd.bind(this));
+        leftButton.addEventListener('click', this.onLeftButtonClick.bind(this));
+        rightButton.addEventListener('click', this.onRightButtonClick.bind(this));
 
         this.menuSlider.style["transition"] = 'transform 0s ease-in-out';
         this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
     }
 
     onTransitionEnd() {
-        if(this.position > -980) {
-            this.position -= 980 * 3;
+        if(this.position > -this.panelSize) {
+            this.position -= this.panelSize * this.panelNumber;
             this.menuSlider.style["transition"] = 'transform 5ms ease-in-out';
             this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
         }
 
-        if(this.position <= -980 * 5) {
-            this.position += 980 * 3;
+        if(this.position <= -this.panelSize * 5) {
+            this.position += this.panelSize * this.panelNumber;
             this.menuSlider.style["transition"] = 'transform 5ms ease-in-out';
             this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
         }
 
-        this.leftButton.disabled = false;  
-        this.rightButton.disabled = false; 
+        this.leftButton.disabled = false;
+        this.rightButton.disabled = false;
     }
 
     onLeftButtonClick() {
-        this.leftButton.disabled = true; 
-        if(this.position > -980) {
-            this.position -= 980 * 2;
+        this.leftButton.disabled = true;
+        if(this.position > -this.panelSize) {
+            this.position -= this.panelSize * 2;
         } else {
-            this.position += 980;
+            this.position += this.panelSize;
         }
         this.menuSlider.style["transition"] = 'transform 0.5s ease-in-out';
-        this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;   
+        this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
 
     }
 
     onRightButtonClick() {
-        this.rightButton.disabled = true; 
-        if(this.position <= -980 * 5) {
-            this.position += 980 * 2;    
+        this.rightButton.disabled = true;
+        if(this.position <= -this.panelSize * 5) {
+            this.position += this.panelSize * 2;
         } else {
-            this.position -= 980;
+            this.position -= this.panelSize;
         }
         this.menuSlider.style["transition"] = 'transform 0.5s ease-in-out';
         this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
@@ -264,8 +266,10 @@ document.addEventListener('DOMContentLoaded', function () {
     eventHandler.init()
 
     new MenuSlider(Util.$('.menu_slider'),
-        Util.$('#left_arrow'), 
-        Util.$('#right_arrow')); 
+        Util.$('#left_arrow'),
+        Util.$('#right_arrow'),
+        parseInt(getComputedStyle(Util.$('.menu_view')).width),
+        3);
 });
 
 export {EventHandler, AutoComplete, Networking, Cache, Util}
