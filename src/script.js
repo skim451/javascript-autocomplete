@@ -206,6 +206,8 @@ class MenuSlider {
         this.transitionTime = transitionTime;
 
         menuSlider.addEventListener('transitionend', this.onTransitionEnd.bind(this));
+        menuSlider.addEventListener('mouseover', this.onMenuMouseOver.bind(this));
+        menuSlider.addEventListener('mouseout', this.onMenuMouseOut.bind(this)); 
         leftButton.addEventListener('click', this.onLeftButtonClick.bind(this));
         rightButton.addEventListener('click', this.onRightButtonClick.bind(this));
 
@@ -215,10 +217,23 @@ class MenuSlider {
         this.setAutoSlide(); 
     }
 
+    onMenuMouseOver(event) {
+        if(!event.currentTarget) return; 
+
+        this.stopAutoSlide(); 
+    }
+
+    onMenuMouseOut(event) {
+        if(!event.currentTarget) return; 
+
+        this.setAutoSlide();
+    }
+
     setAutoSlide() {
         this.autoInterval = setInterval(() => {
-            this.onRightButtonClick();
-        }, 2000);
+            if(!this.rightButton.disabled && !this.leftButton.disabled) 
+                this.onRightButtonClick();
+        }, 3000);
     }
 
     stopAutoSlide() {
@@ -233,15 +248,16 @@ class MenuSlider {
             this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
         }
         // if last element
-        if(this.position <= -this.panelSize * (this.panelNumber + 1)) {
+        else if(this.position <= -this.panelSize * (this.panelNumber + 1)) {
             this.position += this.panelSize * this.panelNumber;
             this.menuSlider.style["transition"] = 'transform 5ms ease-in-out';
             this.menuSlider.style["transform"] = `translate3d(${this.position}px, 0px, 0px)`;
         }
+        else
+            this.setAutoSlide();
+
         this.lockButton(this.leftButton, false);
         this.lockButton(this.rightButton, false);
-
-        this.setAutoSlide();
     }
 
     onLeftButtonClick() {
